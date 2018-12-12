@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:background="@mipmap/head_bg"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_20_dp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_45_dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="@dimen/darcy_40_dp"
+            android:layout_height="@dimen/darcy_40_dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_centerInParent="true"
+                android:id="@+id/iv_left_image"
+                android:layout_width="@dimen/darcy_10_dp"
+                android:layout_height="@dimen/darcy_18_dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/back" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="标题"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_right_image"
+            android:layout_width="@dimen/darcy_40_dp"
+            android:layout_height="@dimen/darcy_40_dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="@dimen/darcy_10_dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_right_image"
+                android:layout_width="@dimen/darcy_20_dp"
+                android:layout_height="@dimen/darcy_20_dp"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

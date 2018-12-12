@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".bluetooth.ui.activity.SearchActivity">
+
+    <com.kaha.bletools.framework.widget.CommonTopView
+        android:id="@+id/toView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toView"
+        android:layout_marginStart="@dimen/darcy_10_dp"
+        android:layout_marginEnd="@dimen/darcy_10_dp"
+        android:layout_marginBottom="@dimen/darcy_40_dp" />
+
+    <View
+        android:layout_above="@+id/ll_bottom"
+        android:background="@color/green_47ba5c"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_1_dp"/>
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_40_dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/darcy_20_dp"
+            android:text="蓝牙设备数: "
+            android:textColor="@color/gray_888888"
+            android:textSize="14sp" />
+
+        <TextView
+            android:text="0"
+            android:id="@+id/tv_bluetooth_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</RelativeLayout>
