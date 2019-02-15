@@ -2,6 +2,7 @@ package com.kaha.bletools.bluetooth.ui.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -47,6 +48,11 @@ public class MainActivity extends BaseActivity {
     private boolean isOpenBluetooth;
 
     @Override
+    protected int setLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         topView.setLeftVis(false);
@@ -76,7 +82,8 @@ public class MainActivity extends BaseActivity {
                 } else {
                     //打开蓝牙
                     BluetoothManage.getInstance().getBluetoothClient().openBluetooth();
-                    BluetoothManage.getInstance().getBluetoothClient().registerBluetoothStateListener(mBluetoothStateListener);
+                    BluetoothManage.getInstance().getBluetoothClient().
+                            registerBluetoothStateListener(mBluetoothStateListener);
                 }
                 break;
         }
@@ -96,24 +103,25 @@ public class MainActivity extends BaseActivity {
 
                 skipPage(SearchActivity.class);
             } else {
+                isOpenBluetooth= false;
                 ToastUtil.show(context, "蓝牙未打开");
             }
         }
 
     };
 
-
     //检查是否支持ble蓝牙
     @SuppressLint("SetTextI18n")
     private void checkSupport() {
         boolean support = BluetoothManage.getInstance().isSupport();
         if (support) {
+            tvSupportStatues.setTextColor(Color.GRAY);
             tvSupportStatues.setText("support");
         } else {
+            tvSupportStatues.setTextColor(Color.RED);
             tvSupportStatues.setText("unSupport");
         }
     }
-
     //检查蓝牙是否打开
     @SuppressLint("SetTextI18n")
     private void checkBluetoothOpened() {
@@ -132,7 +140,6 @@ public class MainActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         permissionHelper.handleRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
     //请求权限回调
     PermissionHelper.PermissionCallBack permissionCallBack = new PermissionHelper.PermissionCallBack() {
         @Override
@@ -156,9 +163,4 @@ public class MainActivity extends BaseActivity {
         new ConfirmPopWindow(context).showAtBottom(rlRightImage);
     }
 
-
-    @Override
-    protected int setLayoutId() {
-        return R.layout.activity_main;
-    }
 }

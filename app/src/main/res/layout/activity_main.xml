@@ -31,8 +31,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="设备是否支持BLE蓝牙:"
-                    android:textColor="@color/black"
+                    android:text="@string/if_support_ble"
+                    android:textColor="@color/gray_888888"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -54,8 +54,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="设备蓝牙状态:"
-                    android:textColor="@color/black"
+                    android:text="@string/bluetooth_open"
+                    android:textColor="@color/gray_888888"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 

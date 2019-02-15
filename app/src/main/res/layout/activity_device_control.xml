@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".bluetooth.ui.activity.DeviceControlActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.kaha.bletools.framework.widget.CommonTopView
+            android:id="@+id/topView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_45_dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:paddingStart="@dimen/darcy_10_dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MAC: "
+                    android:textColor="@color/gray_888888"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_mac"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/darcy_4_dp"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:paddingStart="@dimen/darcy_10_dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/statues"
+                    android:textColor="@color/gray_888888"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_statues"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/darcy_4_dp"
+                    android:text="@string/disconnection"
+                    android:textColor="@color/red_ff4c4c"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_2_dp"
+            android:layout_marginStart="@dimen/darcy_10_dp"
+            android:layout_marginEnd="@dimen/darcy_10_dp"
+            android:background="@color/blue" />
+
+        <com.kaha.bletools.bluetooth.widget.BleSelectView
+            android:id="@+id/select_write_character"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_50_dp"
+            app:contentText="@string/select_write_character"
+            app:image="@mipmap/write" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_1_dp"
+            android:layout_marginStart="@dimen/darcy_20_dp"
+            android:layout_marginEnd="@dimen/darcy_20_dp"
+            android:background="@color/gray_f3f3f3" />
+
+        <com.kaha.bletools.bluetooth.widget.BleSelectView
+            android:id="@+id/select_notify_character"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_50_dp"
+            app:contentText="@string/select_notify_character"
+            app:image="@mipmap/notify" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_1_dp"
+            android:layout_marginStart="@dimen/darcy_20_dp"
+            android:layout_marginEnd="@dimen/darcy_20_dp"
+            android:background="@color/gray_f3f3f3" />
+
+        <com.kaha.bletools.bluetooth.widget.BleSelectView
+            android:id="@+id/select_read_character"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_50_dp"
+            app:contentText="@string/select_read_character"
+            app:image="@mipmap/read" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_1_dp"
+            android:layout_marginStart="@dimen/darcy_20_dp"
+            android:layout_marginEnd="@dimen/darcy_20_dp"
+            android:background="@color/gray_f3f3f3" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_50_dp">
+
+            <TextView
+                android:id="@+id/tv_command"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/darcy_80_dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center|left"
+                android:paddingStart="@dimen/darcy_20_dp"
+                android:text="@string/input_command"
+                android:textColor="@color/gray_888888" />
+
+            <Button
+                android:id="@+id/btn_send"
+                android:layout_width="@dimen/darcy_60_dp"
+                android:layout_height="@dimen/darcy_30_dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/darcy_10_dp"
+                android:background="@drawable/button_selector"
+                android:text="@string/send"
+                android:textAllCaps="false"
+                android:textColor="@drawable/text_color_selector" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_2_dp"
+            android:layout_marginStart="@dimen/darcy_10_dp"
+            android:layout_marginEnd="@dimen/darcy_10_dp"
+            android:background="@color/blue" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_40_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/darcy_20_dp"
+                android:text="@string/output_format"
+                android:textColor="@color/blue"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_output"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/darcy_20_dp"
+            android:background="@color/gray_f3f3f3"
+            android:paddingStart="@dimen/darcy_10_dp"
+            android:paddingEnd="@dimen/darcy_10_dp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_20_dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/darcy_10_dp"
+            android:text="@string/total_count"
+            android:textColor="@color/black"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/darcy_10_dp"
+            android:layout_toEndOf="@+id/textView"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="10sp" />
+    </RelativeLayout>
+
+    <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout xmlns:rfal="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_main_rfal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        rfal:rfal_frame_alpha="0"
+        rfal:rfal_frame_color="#ffffff">
+
+        <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton xmlns:rfab="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/activity_main_rfab"
+            android:layout_width="@dimen/darcy_40_dp"
+            android:layout_height="@dimen/darcy_40_dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/darcy_20_dp"
+            android:layout_marginBottom="@dimen/darcy_30_dp"
+            rfab:rfab_color_normal="@color/blue"
+            rfab:rfab_color_pressed="#263238"
+            rfab:rfab_drawable="@drawable/rfab__drawable_rfab_default"
+            rfab:rfab_shadow_color="#999999"
+            rfab:rfab_shadow_dx="0dp"
+            rfab:rfab_shadow_dy="5dp"
+            rfab:rfab_shadow_radius="@dimen/darcy_7_dp"
+            rfab:rfab_size="mini" />
+    </com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout>
+
+</RelativeLayout>

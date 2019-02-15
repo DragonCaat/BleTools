@@ -26,8 +26,8 @@
             <ImageView
                 android:layout_centerInParent="true"
                 android:id="@+id/iv_left_image"
-                android:layout_width="@dimen/darcy_10_dp"
-                android:layout_height="@dimen/darcy_18_dp"
+                android:layout_width="@dimen/darcy_8_dp"
+                android:layout_height="@dimen/darcy_16_dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/back" />
         </RelativeLayout>
@@ -37,9 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="标题"
+            android:text="@string/title"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <RelativeLayout
             android:id="@+id/rl_right_image"

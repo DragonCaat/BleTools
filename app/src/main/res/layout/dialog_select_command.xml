@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/darcy_20_dp"
+        android:layout_marginEnd="@dimen/darcy_20_dp"
+        android:background="@drawable/rectangle_white"
+        android:orientation="vertical"
+        android:padding="@dimen/darcy_6_dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_20_dp" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:entries="@array/spinner"
+            android:gravity="center" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_40_dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <EditText
+                android:id="@+id/et_input_command"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/darcy_40_dp"
+                android:background="@null"
+                android:gravity="center|left"
+                android:hint="请输入命令"
+                android:paddingStart="@dimen/darcy_20_dp"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="@dimen/darcy_20_dp"
+                android:layout_height="@dimen/darcy_20_dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/darcy_15_dp"
+                android:src="@drawable/delete_selector"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_1_dp"
+            android:background="@color/blue" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_45_dp"
+            android:layout_marginTop="@dimen/darcy_4_dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_send"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/darcy_40_dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:text="@string/send"
+                android:textAllCaps="false"
+                android:textColor="@drawable/text_color_selector" />
+
+            <View
+                android:layout_width="@dimen/darcy_40_dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btn_save_command"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/darcy_40_dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:text="@string/save_command"
+                android:textAllCaps="false"
+                android:textColor="@drawable/text_color_selector" />
+
+        </LinearLayout>
+        <View
+            android:layout_marginTop="@dimen/darcy_6_dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_1_dp"
+            android:background="@color/blue" />
+
+        <ListView
+            android:id="@+id/lv_show_save_command"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>

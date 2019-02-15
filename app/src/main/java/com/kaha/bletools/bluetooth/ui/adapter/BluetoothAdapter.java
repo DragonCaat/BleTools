@@ -1,15 +1,22 @@
 package com.kaha.bletools.bluetooth.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.inuker.bluetooth.library.search.SearchResult;
 import com.kaha.bletools.R;
+import com.kaha.bletools.bluetooth.base.AppConst;
 import com.kaha.bletools.bluetooth.entity.BluetoothEntity;
+import com.kaha.bletools.bluetooth.ui.activity.DeviceControlActivity;
+import com.kaha.bletools.bluetooth.utils.ByteAndStringUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,10 +31,10 @@ import butterknife.ButterKnife;
 public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.BluetoothHolder> {
 
 
-    private List<BluetoothEntity> list;
+    private List<SearchResult> list;
     private Context context;
 
-    public BluetoothAdapter(List<BluetoothEntity> list, Context context) {
+    public BluetoothAdapter(List<SearchResult> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -41,15 +48,57 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
 
     @Override
     public void onBindViewHolder(@NonNull BluetoothHolder bluetoothHolder, int i) {
-        BluetoothEntity entity = list.get(i);
-        bluetoothHolder.deviceName.setText(entity.getDeviceName());
-        bluetoothHolder.deviceAddress.setText(entity.getDeviceAddress());
-        bluetoothHolder.deviceRSSI.setText(""+entity.getDeviceRSSI());
+        final SearchResult entity = list.get(i);
+        bluetoothHolder.deviceName.setText(entity.getName());
+        bluetoothHolder.deviceAddress.setText(entity.getAddress());
+        bluetoothHolder.deviceRSSI.setText("" + entity.rssi);
+        //bluetoothHolder.tvBroadcastPack.setText(""+ByteAndStringUtil.bytesToHexString(entity.scanRecord));
+        bluetoothHolder.llBluetooth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DeviceControlActivity.class);
+                intent.putExtra(AppConst.KEY_1, entity.getName());
+                intent.putExtra(AppConst.KEY_2, entity.getAddress());
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+
+    /**
+     * 清空数据
+     *
+     * @param ,
+     * @return void
+     * @date 2019-01-23
+     */
+    public void clear() {
+        if (list != null) {
+            list.clear();
+        }
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 设置所有数据
+     *
+     * @param dataList 数据源
+     * @return void
+     * @date 2019-01-23
+     */
+    public void setListAll(List<SearchResult> dataList) {
+        if (list == null) {
+            list = new ArrayList<>();
+        }
+        list.clear();
+        list.addAll(dataList);
+        notifyDataSetChanged();
     }
 
 
@@ -62,6 +111,11 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
         TextView deviceRSSI;
         @BindView(R.id.device_distance)
         TextView deviceDistance;
+        @BindView(R.id.tv_broadcastPack)
+        TextView tvBroadcastPack;
+
+        @BindView(R.id.ll_show_bluetooth)
+        LinearLayout llBluetooth;
 
         public BluetoothHolder(@NonNull View itemView) {
             super(itemView);

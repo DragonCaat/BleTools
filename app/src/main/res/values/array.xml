@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--字符的显示状态-->
+    <string-array name="spinner">
+        <item>十六进制</item>
+        <item>文本</item>
+    </string-array>
+
+</resources>

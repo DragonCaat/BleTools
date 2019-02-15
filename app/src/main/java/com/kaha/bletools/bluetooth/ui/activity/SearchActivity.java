@@ -4,18 +4,14 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.inuker.bluetooth.library.beacon.Beacon;
-import com.inuker.bluetooth.library.search.SearchRequest;
 import com.inuker.bluetooth.library.search.SearchResult;
 import com.inuker.bluetooth.library.search.response.SearchResponse;
-import com.inuker.bluetooth.library.utils.BluetoothLog;
 import com.kaha.bletools.R;
-import com.kaha.bletools.bluetooth.entity.BluetoothEntity;
 import com.kaha.bletools.bluetooth.ui.adapter.BluetoothAdapter;
-import com.kaha.bletools.bluetooth.utils.bluetooth.BleBluetoothHelper;
 import com.kaha.bletools.bluetooth.utils.bluetooth.BluetoothManage;
 import com.kaha.bletools.bluetooth.utils.bluetooth.SortByRssi;
 import com.kaha.bletools.framework.ui.activity.BaseActivity;
@@ -23,10 +19,10 @@ import com.kaha.bletools.framework.widget.CommonTopView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * @author : Darcy
@@ -35,21 +31,19 @@ import butterknife.BindView;
  * @Description 搜索蓝牙界面
  */
 public class SearchActivity extends BaseActivity {
-    @BindView(R.id.toView)
+    @BindView(R.id.topView)
     CommonTopView topView;
-
     @BindView(R.id.recycleView)
     RecyclerView recyclerView;
     @BindView(R.id.tv_bluetooth_num)
     TextView tvBluetoothNum;
+    @BindView(R.id.pb)
+    ProgressBar progressBar;
 
     //展示蓝牙的适配器
     private BluetoothAdapter adapter;
     //用户装设备的list
-    private List<BluetoothEntity> list = new ArrayList<>();
-
-    //蓝牙帮助类
-    private BleBluetoothHelper bluetoothHelper;
+    private List<SearchResult> list = new ArrayList<>();
 
     @Override
     protected int setLayoutId() {
@@ -59,10 +53,18 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        topView.setTitle("正在搜索蓝牙");
+        topView.setTitle(getString(R.string.search_bluetooth));
         initRecycleView();
         searchBluetooth();
     }
+
+    @OnClick({})
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+        }
+    }
+
 
     /**
      * 初始化recycleView
@@ -87,30 +89,26 @@ public class SearchActivity extends BaseActivity {
         BluetoothManage.getInstance().scanBluetooth(new SearchResponse() {
             @Override
             public void onSearchStarted() {
-
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onDeviceFounded(SearchResult device) {
-//                Beacon beacon = new Beacon(device.scanRecord);
-//                Log.i("hello", "onDeviceFounded: " +
-//                        String.format("beacon for %s\n%s", device.getAddress(), beacon.toString()));
-
+                //device.device.
                 if (TextUtils.isEmpty(device.getName()) || "NULL".equals(device.getName())) {
                     return;
                 }
-
                 if (list.size() > 0) {
-                    boolean same = bluetoothHelper.isSame(device, list);
-                    if (same) {
-                        return;
-                    }else {
-                        BluetoothEntity entity = bluetoothHelper.getEntity(device);
-                        list.add(entity);
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).getAddress().equals(device.getAddress())) {
+                            return;
+                        }
                     }
-                }else {
-                    BluetoothEntity entity = bluetoothHelper.getEntity(device);
-                    list.add(entity);
+                    list.add(device);
+                    //adapter.notifyDataSetChanged();
+                } else {
+                    list.add(device);
+                    //adapter.notifyDataSetChanged();
                 }
                 runOnUiThread(new Runnable() {
                     @Override
@@ -118,15 +116,16 @@ public class SearchActivity extends BaseActivity {
                         tvBluetoothNum.setText("" + list.size());
                         //排序
                         Collections.sort(list, new SortByRssi());
+                        //adapter.clear();
+                        // adapter.setListAll(list);
                         adapter.notifyDataSetChanged();
                     }
                 });
-
             }
 
             @Override
             public void onSearchStopped() {
-
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -136,11 +135,17 @@ public class SearchActivity extends BaseActivity {
         });
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
-        if (null == bluetoothHelper) {
-            bluetoothHelper = new BleBluetoothHelper();
-        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //停止搜索
+        BluetoothManage.getInstance().getBluetoothClient().stopSearch();
+        progressBar.setVisibility(View.GONE);
     }
 }

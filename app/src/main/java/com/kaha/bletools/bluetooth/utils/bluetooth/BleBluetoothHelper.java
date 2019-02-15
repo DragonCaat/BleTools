@@ -14,40 +14,23 @@ import java.util.List;
 public class BleBluetoothHelper {
 
 
-    private BluetoothEntity entity;
-
     /**
-     * 将搜索到的设备转化为蓝牙实体
+     * 判断是否是十六进制
      *
-     * @param device 搜索道的蓝牙实体数据
-     * @return BluetoothEntity 蓝牙实体类
-     * @Date 2018-11-12
+     * @param str
+     * @return boolean
+     * @date 2019-02-14
      */
-    public BluetoothEntity getEntity(SearchResult device) {
-        entity = new BluetoothEntity();
-        entity.setDeviceName(device.getName());
-        entity.setDeviceAddress(device.getAddress());
-        entity.setDeviceRSSI(device.rssi);
-        return entity;
-    }
-
-    /**
-     * 判断搜索到的设备是不是已经存入list的设备
-     *
-     * @param device 搜索到的设备
-     * @param list   存放蓝牙设备的list
-     * @return boolean true:同一个蓝牙设备 false :不是同一个设备
-     * @Date 2018-11-13
-     */
-    public boolean isSame(SearchResult device, List<BluetoothEntity> list) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getDeviceAddress().trim().equals(device.getAddress().trim())) {
-                return true;
-            } else {
-                return false;
+    public static boolean isHexNumber(String str) {
+        boolean flag = false;
+        for (int i = 0; i < str.length(); i++) {
+            char cc = str.charAt(i);
+            if (cc == '0' || cc == '1' || cc == '2' || cc == '3' || cc == '4' || cc == '5' || cc == '6' || cc == '7' || cc == '8' || cc == '9' || cc == 'A' || cc == 'B' || cc == 'C' ||
+                    cc == 'D' || cc == 'E' || cc == 'F' || cc == 'a' || cc == 'b' || cc == 'c' || cc == 'c' || cc == 'd' || cc == 'e' || cc == 'f') {
+                flag = true;
             }
         }
-        return false;
+        return flag;
     }
 
 }

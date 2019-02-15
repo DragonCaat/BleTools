@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_command"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_40_dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="ATBATT"
+        android:textColor="@color/gray_888888"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:scaleType="center"
+        android:id="@+id/iv_remove_command"
+        android:layout_width="@dimen/darcy_20_dp"
+        android:layout_height="@dimen/darcy_20_dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="@dimen/darcy_20_dp"
+        android:src="@drawable/remove_selector" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_1_dp"
+        android:layout_below="@+id/tv_content"
+        android:background="@color/gray_f3f3f3" />
+</RelativeLayout>

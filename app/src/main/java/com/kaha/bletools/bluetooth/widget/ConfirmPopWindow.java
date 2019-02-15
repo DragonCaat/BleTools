@@ -44,7 +44,7 @@ public class ConfirmPopWindow extends PopupWindow {
 
     private void initWindow() {
         DisplayMetrics d = context.getResources().getDisplayMetrics();
-        this.setWidth((int) (d.widthPixels * 0.35));
+        this.setWidth((int) (d.widthPixels * 0.5));
         this.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         this.setFocusable(true);
         this.setOutsideTouchable(true);

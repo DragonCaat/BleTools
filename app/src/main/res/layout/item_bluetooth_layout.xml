@@ -4,13 +4,14 @@
     android:id="@+id/ll_show_bluetooth"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
     android:layout_margin="10dp"
     android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -23,6 +24,8 @@
                 android:id="@+id/device_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="0dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/bluetooth_circle" />
         </RelativeLayout>
@@ -41,12 +44,13 @@
                 android:paddingEnd="10dp">
 
                 <TextView
+                    android:text="RUSH-3538"
                     android:id="@+id/device_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -65,6 +69,7 @@
                         tools:ignore="RtlHardcoded" />
 
                     <TextView
+                        android:textSize="10sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" ms" />
@@ -80,12 +85,13 @@
                 tools:ignore="RtlSymmetry">
 
                 <TextView
+                    android:text="DB:AB:92:B7:35:38"
                     android:id="@+id/device_mac"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -99,18 +105,20 @@
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:text="RSSI: "
-                        android:textSize="12sp"
+                        android:textSize="10sp"
                         tools:ignore="RtlHardcoded" />
 
                     <TextView
+                        android:text="-84"
                         android:id="@+id/device_rssi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:textSize="12sp"
+                        android:textSize="10sp"
                         tools:ignore="RtlHardcoded" />
 
                     <TextView
+                        android:textSize="10sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" db" />
@@ -126,6 +134,13 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:visibility="gone"
+        android:textSize="10sp"
+        android:id="@+id/tv_broadcastPack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <View
         android:background="@color/gray_d3d3d3"

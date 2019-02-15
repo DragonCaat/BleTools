@@ -2,17 +2,29 @@
 <resources>
     <dimen name="darcy_1_dp">1dp</dimen>
     <dimen name="darcy_2_dp">2dp</dimen>
+    <dimen name="darcy_3_dp">3dp</dimen>
     <dimen name="darcy_4_dp">4dp</dimen>
     <dimen name="darcy_5_dp">5dp</dimen>
     <dimen name="darcy_6_dp">6dp</dimen>
+    <dimen name="darcy_7_dp">7dp</dimen>
+    <dimen name="darcy_8_dp">8dp</dimen>
+    <dimen name="darcy_9_dp">9dp</dimen>
     <dimen name="darcy_10_dp">10dp</dimen>
+    <dimen name="darcy_11_dp">11dp</dimen>
     <dimen name="darcy_12_dp">12dp</dimen>
+    <dimen name="darcy_13_dp">13dp</dimen>
+    <dimen name="darcy_14_dp">14dp</dimen>
     <dimen name="darcy_15_dp">15dp</dimen>
+    <dimen name="darcy_16_dp">16dp</dimen>
+    <dimen name="darcy_17_dp">17dp</dimen>
     <dimen name="darcy_18_dp">18dp</dimen>
+    <dimen name="darcy_19_dp">19dp</dimen>
     <dimen name="darcy_20_dp">20dp</dimen>
+    <dimen name="darcy_21_dp">21dp</dimen>
     <dimen name="darcy_22_dp">22dp</dimen>
     <dimen name="darcy_24_dp">24dp</dimen>
     <dimen name="darcy_25_dp">25dp</dimen>
+    <dimen name="darcy_26_dp">26dp</dimen>
     <dimen name="darcy_30_dp">30dp</dimen>
     <dimen name="darcy_35_dp">35dp</dimen>
     <dimen name="darcy_40_dp">40dp</dimen>
@@ -21,6 +33,7 @@
     <dimen name="darcy_55_dp">55dp</dimen>
     <dimen name="darcy_60_dp">60dp</dimen>
     <dimen name="darcy_64_dp">64dp</dimen>
+    <dimen name="darcy_70_dp">70dp</dimen>
     <dimen name="darcy_80_dp">80dp</dimen>
     <dimen name="darcy_88_dp">88dp</dimen>
     <dimen name="darcy_98_dp">98dp</dimen>
