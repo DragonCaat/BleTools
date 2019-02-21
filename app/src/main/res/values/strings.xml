@@ -9,7 +9,9 @@
     <string name="bluetooth_number">蓝牙设备数:</string>
     <string name="statues">状态: </string>
     <string name="disconnection">未连接</string>
+    <string name="disconnect">断开连接</string>
     <string name="connection">已连接</string>
+    <string name="connect">连接</string>
     <string name="connecting">正在连接...</string>
     <string name="select_write_character">点击选择可写服务</string>
     <string name="select_notify_character">点击选择可通知服务</string>
@@ -35,4 +37,7 @@
     <string name="no_output_data">当前没有输入数据</string>
     <string name="permission_denied">授权失败</string>
     <string name="output_success">写入成功</string>
+    <string name="search">搜索</string>
+    <string name="not_translate">乱码不可转换</string>
+    <string name="analysis_data">分析数据</string>
 </resources>

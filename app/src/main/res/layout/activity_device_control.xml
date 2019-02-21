@@ -171,23 +171,81 @@
                 android:textColor="@color/blue"
                 android:textSize="14sp" />
 
+            <View
+                android:layout_width="@dimen/darcy_1_dp"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/rl_select_type"
+                android:background="@color/gray_f3f3f3" />
+
+            <LinearLayout
+                android:id="@+id/rl_select_type"
+                android:layout_width="@dimen/darcy_100_dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_type_hex"
+                    android:layout_width="@dimen/darcy_25_dp"
+                    android:layout_height="@dimen/darcy_25_dp"
+                    android:background="@drawable/circle_green"
+                    android:gravity="center"
+                    android:text="Hex"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <View
+                    android:layout_width="@dimen/darcy_20_dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_type_txt"
+                    android:layout_width="@dimen/darcy_25_dp"
+                    android:layout_height="@dimen/darcy_25_dp"
+                    android:background="@drawable/circle_gray"
+                    android:gravity="center"
+                    android:text="Txt"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+
         </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_output"
+
+        <com.kaha.bletools.framework.widget.ReboundScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/darcy_20_dp"
-            android:background="@color/gray_f3f3f3"
-            android:paddingStart="@dimen/darcy_10_dp"
-            android:paddingEnd="@dimen/darcy_10_dp" />
+            android:background="@color/gray_f3f3f3">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray_f3f3f3"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/darcy_10_dp"
+                android:paddingEnd="@dimen/darcy_10_dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+        </com.kaha.bletools.framework.widget.ReboundScrollView>
+
 
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/darcy_20_dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/textView"
@@ -216,7 +274,7 @@
         android:id="@+id/activity_main_rfal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        rfal:rfal_frame_alpha="0"
+        rfal:rfal_frame_alpha="0.8"
         rfal:rfal_frame_color="#ffffff">
 
         <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton xmlns:rfab="http://schemas.android.com/apk/res-auto"

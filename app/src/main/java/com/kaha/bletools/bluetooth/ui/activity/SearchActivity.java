@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.inuker.bluetooth.library.beacon.Beacon;
 import com.inuker.bluetooth.library.search.SearchResult;
 import com.inuker.bluetooth.library.search.response.SearchResponse;
+import com.inuker.bluetooth.library.utils.BluetoothLog;
 import com.kaha.bletools.R;
 import com.kaha.bletools.bluetooth.ui.adapter.BluetoothAdapter;
 import com.kaha.bletools.bluetooth.utils.bluetooth.BluetoothManage;
@@ -31,14 +34,15 @@ import butterknife.OnClick;
  * @Description 搜索蓝牙界面
  */
 public class SearchActivity extends BaseActivity {
-    @BindView(R.id.topView)
-    CommonTopView topView;
     @BindView(R.id.recycleView)
     RecyclerView recyclerView;
     @BindView(R.id.tv_bluetooth_num)
     TextView tvBluetoothNum;
     @BindView(R.id.pb)
     ProgressBar progressBar;
+    //搜索
+    @BindView(R.id.tv_search)
+    TextView tvSearch;
 
     //展示蓝牙的适配器
     private BluetoothAdapter adapter;
@@ -53,15 +57,23 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        topView.setTitle(getString(R.string.search_bluetooth));
         initRecycleView();
         searchBluetooth();
     }
 
-    @OnClick({})
+    @OnClick({R.id.rl_back, R.id.tv_search})
     public void onClick(View view) {
         switch (view.getId()) {
-
+            case R.id.rl_back:
+                finish();
+                break;
+            //搜索
+            case R.id.tv_search:
+                list.clear();
+                tvBluetoothNum.setText("0");
+                adapter.notifyDataSetChanged();
+                searchBluetooth();
+                break;
         }
     }
 
@@ -90,11 +102,11 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onSearchStarted() {
                 progressBar.setVisibility(View.VISIBLE);
+                tvSearch.setVisibility(View.GONE);
             }
 
             @Override
             public void onDeviceFounded(SearchResult device) {
-                //device.device.
                 if (TextUtils.isEmpty(device.getName()) || "NULL".equals(device.getName())) {
                     return;
                 }
@@ -105,10 +117,8 @@ public class SearchActivity extends BaseActivity {
                         }
                     }
                     list.add(device);
-                    //adapter.notifyDataSetChanged();
                 } else {
                     list.add(device);
-                    //adapter.notifyDataSetChanged();
                 }
                 runOnUiThread(new Runnable() {
                     @Override
@@ -116,8 +126,6 @@ public class SearchActivity extends BaseActivity {
                         tvBluetoothNum.setText("" + list.size());
                         //排序
                         Collections.sort(list, new SortByRssi());
-                        //adapter.clear();
-                        // adapter.setListAll(list);
                         adapter.notifyDataSetChanged();
                     }
                 });
@@ -126,11 +134,12 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onSearchStopped() {
                 progressBar.setVisibility(View.GONE);
+                tvSearch.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onSearchCanceled() {
-
+                tvSearch.setVisibility(View.VISIBLE);
             }
         });
     }

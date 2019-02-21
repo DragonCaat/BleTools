@@ -79,4 +79,8 @@ public class ShowCommandAdapter extends BaseAdapter {
         list.add(command);
         notifyDataSetChanged();
     }
+
+    public List<Command> getCommandData() {
+        return list;
+    }
 }

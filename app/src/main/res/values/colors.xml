@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#47ba5c</color>
 
+    <color name="mainColorDark">#383547</color>
+    <color name="mainColor">#444153</color>
 
     <color name="white">#ffffff</color>
     <color name="white_80fff">#80FFFFFF</color>
@@ -12,6 +14,7 @@
 
     <color name="main_color_dark">#80F63BB2</color>
     <color name="black">#333333</color>
+    <color name="black_80333333">#80333333</color>
     <color name="gray_888888">#888888</color>
     <color name="gray_cccccc">#cccccc</color>
 

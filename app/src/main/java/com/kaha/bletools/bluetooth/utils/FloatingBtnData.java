@@ -41,8 +41,8 @@ public class FloatingBtnData {
                 .setWrapper(1)
         );
         items.add(new RFACLabelItem<Integer>()
-                .setLabel("Darcy")
-                .setResId(R.mipmap.ic_launcher)
+                .setLabel(context.getString(R.string.analysis_data))
+                .setResId(R.mipmap.analysis_data)
                 .setIconNormalColor(0xff056f00)
                 .setIconPressedColor(0xff0d5302)
                 .setLabelColor(0xff056f00)
@@ -51,5 +51,6 @@ public class FloatingBtnData {
         );
 
         return items;
+
     }
 }

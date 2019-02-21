@@ -1,5 +1,7 @@
 package com.kaha.bletools.bluetooth.utils.bluetooth;
 
+import android.util.Log;
+
 import com.inuker.bluetooth.library.BluetoothClient;
 import com.inuker.bluetooth.library.Constants;
 import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
@@ -180,8 +182,8 @@ public class BluetoothManage {
      * @date 2019-02-14
      */
     public void writeCommand(String mac, UUID serviceUuid, UUID characterUuid, String command, BleWriteResponse response) {
-        boolean hexNumber = BleBluetoothHelper.isHexNumber(command);
-        if (hexNumber) {
+        String regex = "^[A-Fa-f0-9]+$";
+        if (command.matches(regex)) {
             //是十六进制
             bluetoothClient.write(mac, serviceUuid, characterUuid,
                     ByteAndStringUtil.hexStringToByte(command), response);

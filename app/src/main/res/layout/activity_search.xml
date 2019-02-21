@@ -7,15 +7,80 @@
     android:orientation="vertical"
     tools:context=".bluetooth.ui.activity.SearchActivity">
 
-    <com.kaha.bletools.framework.widget.CommonTopView
-        android:id="@+id/topView"
+    <RelativeLayout
+        android:id="@+id/rl_head"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="65dp"
+        android:background="@mipmap/head_bg">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_20_dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="@dimen/darcy_40_dp"
+            android:layout_height="@dimen/darcy_40_dp"
+            android:layout_below="@+id/view"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/iv_left_image"
+                android:layout_width="@dimen/darcy_8_dp"
+                android:layout_height="@dimen/darcy_16_dp"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/back" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/view"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/search_bluetooth"
+            android:textColor="@color/white" />
+
+        <FrameLayout
+            android:layout_width="@dimen/darcy_45_dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/view"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="@dimen/darcy_10_dp">
+
+            <ProgressBar
+                android:id="@+id/pb"
+                android:layout_width="@dimen/darcy_25_dp"
+                android:layout_height="@dimen/darcy_25_dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/search"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+
+    </RelativeLayout>
+
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/topView"
+        android:layout_below="@+id/rl_head"
         android:layout_marginBottom="41dp">
 
         <android.support.design.widget.AppBarLayout
@@ -83,14 +148,6 @@
             android:text="0"
             android:textColor="@color/black"
             android:textSize="16sp" />
-
-        <ProgressBar
-            android:id="@+id/pb"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/darcy_20_dp"
-            android:visibility="gone" />
 
     </LinearLayout>
 

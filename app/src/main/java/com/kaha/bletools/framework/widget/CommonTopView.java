@@ -34,6 +34,9 @@ public class CommonTopView extends RelativeLayout {
     @BindView(R.id.iv_left_image)
     ImageView ivLeftImage;
 
+    @BindView(R.id.tv_right_text)
+    TextView tvRightText;
+
     public CommonTopView(Context context) {
         super(context);
     }
@@ -50,13 +53,20 @@ public class CommonTopView extends RelativeLayout {
     }
 
 
-    @OnClick({R.id.rl_back})
+    @OnClick({R.id.rl_back,R.id.tv_right_text})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
                 Context context = getContext();
                 if (context instanceof Activity) {
                     ((Activity) context).finish();
+                }
+                break;
+
+            //右边按钮点击事件
+            case R.id.tv_right_text:
+                if (rightClickListener != null) {
+                    rightClickListener.onRightClick(view);
                 }
                 break;
         }
@@ -74,6 +84,32 @@ public class CommonTopView extends RelativeLayout {
         } else {
             rlBack.setVisibility(GONE);
         }
+    }
+
+    /**
+     * 设置右边的文字是否可见
+     *
+     * @param isVis boolean
+     * @return void
+     * @date 2019-02-20
+     */
+    public void setRightTextVis(Boolean isVis) {
+        if (isVis) {
+            tvRightText.setVisibility(VISIBLE);
+        } else {
+            tvRightText.setVisibility(GONE);
+        }
+    }
+
+    /**
+     * 设置右边的文字
+     *
+     * @param text 要设置的文字
+     * @return void
+     * @date 2019-02-20
+     */
+    public void setRightText(String text) {
+        tvRightText.setText(text);
     }
 
     /**
@@ -116,4 +152,15 @@ public class CommonTopView extends RelativeLayout {
         rlRight.setVisibility(VISIBLE);
     }
 
+
+    private OnRightClickListener rightClickListener;
+
+    public void setOnRightClickListener(OnRightClickListener listener) {
+        this.rightClickListener = listener;
+    }
+
+    public interface OnRightClickListener {
+
+        void onRightClick(View view);
+    }
 }

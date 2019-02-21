@@ -19,6 +19,7 @@ public class FileUtil {
     @SuppressLint("SdCardPath")
     public static final String filePath = "/sdcard/Akaha/";
 
+    public static final String commandPath = "/sdcard/bleToolsCommand";
 
     /**
      * 生成文件夹名称
@@ -58,6 +59,30 @@ public class FileUtil {
         }
         return file;
     }
+
+
+    /**
+     * 生成对应的文件 txt
+     *
+     * @param filePath 文件路径
+     * @return file 生成的文件
+     * @date 2018-12-28
+     */
+    public static File getFile(String filePath) {
+        //先生成文件夹后，再生成文件，不然会有异常
+        makeRootFile();
+        File file = new File(filePath);
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
+    }
+
 
     /**
      * 将文本写入到文件
@@ -126,7 +151,7 @@ public class FileUtil {
                 //如果文件夹不存在就创建
                 file.mkdir();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }

@@ -16,4 +16,6 @@ public class AppConst {
     public static final String KEY_4 = "key4";
     public static final String KEY_5 = "key5";
     public static final String KEY_6 = "key6";
+
+    public static final String TYPE_OF_OUTPUT = "type_of_output";
 }

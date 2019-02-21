@@ -4,12 +4,14 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ import com.kaha.bletools.bluetooth.ui.adapter.NotifyOutputAdapter;
 import com.kaha.bletools.bluetooth.utils.ByteAndStringUtil;
 import com.kaha.bletools.bluetooth.utils.FileUtil;
 import com.kaha.bletools.bluetooth.utils.FloatingBtnData;
+import com.kaha.bletools.bluetooth.utils.SPUtil;
+import com.kaha.bletools.bluetooth.utils.bluetooth.BleBluetoothHelper;
 import com.kaha.bletools.bluetooth.utils.bluetooth.BluetoothManage;
 import com.kaha.bletools.bluetooth.widget.BleSelectView;
 import com.kaha.bletools.bluetooth.widget.dialog.SelectCharacterDialog;
@@ -42,6 +46,7 @@ import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.labellist.RFACLabelItem;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.labellist.RapidFloatingActionContentLabelList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,6 +65,8 @@ import static com.inuker.bluetooth.library.Constants.STATUS_DISCONNECTED;
  * @desciption
  */
 public class DeviceControlActivity extends BaseActivity {
+    public static final int TYPE_OF_HEX = 0;//十六进制
+    public static final int TYPE_OF_TXT = 1;//文本
 
     @BindView(R.id.topView)
     CommonTopView topView;
@@ -67,7 +74,6 @@ public class DeviceControlActivity extends BaseActivity {
     TextView tvMac;
     @BindView(R.id.tv_statues)
     TextView tvStatues;
-
     @BindView(R.id.select_write_character)
     BleSelectView selectWriteView;
     @BindView(R.id.select_notify_character)
@@ -79,9 +85,12 @@ public class DeviceControlActivity extends BaseActivity {
     TextView tvCommand;
     @BindView(R.id.rv_output)
     RecyclerView rvOutput;
-
     @BindView(R.id.tv_total)
     TextView tvTotal;
+    @BindView(R.id.tv_type_hex)
+    TextView tvTypeHex;
+    @BindView(R.id.tv_type_txt)
+    TextView tvTypeTxt;
 
     @BindView(R.id.activity_main_rfal)
     RapidFloatingActionLayout rfaLayout;
@@ -103,6 +112,11 @@ public class DeviceControlActivity extends BaseActivity {
     //权限帮助类
     private PermissionHelper permissionHelper;
 
+    //用户选择的输出文本的格式
+    private int typeOfOutput = 0;//0:十六进制  1:文本
+    //设备是否已经连接
+    private boolean isConnection = false;
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_device_control;
@@ -116,13 +130,31 @@ public class DeviceControlActivity extends BaseActivity {
         setUserData();
         connection();
         initView();
+
+        topView.setRightTextVis(true);
+        topView.setRightText(getResources().getString(R.string.disconnection));
+        topView.setOnRightClickListener(new CommonTopView.OnRightClickListener() {
+            @Override
+            public void onRightClick(View view) {
+                if (isConnection) {
+                    //断开连接
+                    BluetoothManage.getInstance().disConnection(mac);
+                } else {
+                    //连接
+                    connection();
+                }
+            }
+        });
+
     }
 
+    //初始化View
     private void initView() {
         GridLayoutManager manager = new GridLayoutManager(context, 1);
         rvOutput.setLayoutManager(manager);
         adapter = new NotifyOutputAdapter(context, null);
         rvOutput.setAdapter(adapter);
+        // rvOutput.setNestedScrollingEnabled(false);
 
         if (items != null) {
             items.clear();
@@ -145,7 +177,76 @@ public class DeviceControlActivity extends BaseActivity {
         ).build();
         //实例化权限帮助类
         permissionHelper = new PermissionHelper(activity);
+        tvTypeHex.setOnClickListener(listener);
+        tvTypeTxt.setOnClickListener(listener);
+
+        typeOfOutput = SPUtil.getInstance().getInt(AppConst.TYPE_OF_OUTPUT, 0);
+        if (typeOfOutput == TYPE_OF_HEX) {
+            tvTypeHex.setBackground(getDrawable(R.drawable.circle_green));
+            tvTypeTxt.setBackground(getDrawable(R.drawable.circle_gray));
+        } else {
+            tvTypeHex.setBackground(getDrawable(R.drawable.circle_gray));
+            tvTypeTxt.setBackground(getDrawable(R.drawable.circle_green));
+        }
     }
+
+    //选择文本模式的点击事件
+    private View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.tv_type_hex) {
+                typeOfOutput = 0;
+                //点击了十六进制
+                tvTypeHex.setBackground(getDrawable(R.drawable.circle_green));
+                tvTypeTxt.setBackground(getDrawable(R.drawable.circle_gray));
+            }
+            if (v.getId() == R.id.tv_type_txt) {
+                typeOfOutput = 1;
+                //点击了文本
+                tvTypeHex.setBackground(getDrawable(R.drawable.circle_gray));
+                tvTypeTxt.setBackground(getDrawable(R.drawable.circle_green));
+            }
+            //装填保存到本地
+            SPUtil.getInstance().putInt(AppConst.TYPE_OF_OUTPUT, typeOfOutput);
+            //转化已有的数据
+            translateData();
+        }
+    };
+
+    //转换已经输出的数据
+    private void translateData() {
+        List<OutputData> datas = adapter.getDatas();
+        if (datas.size() == 0) {
+            return;
+        }
+        if (typeOfOutput == TYPE_OF_HEX) {
+            //点击的是文本
+            for (int i = 0; i < datas.size(); i++) {
+                if (datas.get(i) == null) {
+                    ToastUtil.show(context, R.string.not_translate);
+                    return;
+                }
+                String trim = datas.get(i).getOutputString().trim();
+                if (!BleBluetoothHelper.isHexNumber(trim)) {
+                    trim = ByteAndStringUtil.str2HexStr(trim);
+                    datas.remove(i);
+                    datas.add(i, new OutputData(trim));
+                }
+            }
+        } else {
+            //点击的是十六进制
+            for (int i = 0; i < datas.size(); i++) {
+                String outputString = datas.get(i).getOutputString();
+                if (BleBluetoothHelper.isHexNumber(outputString)) {
+                    outputString = ByteAndStringUtil.hexStringToString(outputString);
+                    datas.remove(i);
+                    datas.add(i, new OutputData(outputString));
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
 
     /**
      * 点击事件处理
@@ -168,7 +269,8 @@ public class DeviceControlActivity extends BaseActivity {
                 break;
             //点击输入命令
             case R.id.tv_command:
-                showCommandDialog();
+                String command = tvCommand.getText().toString();
+                showCommandDialog(command);
                 break;
             //发送命令
             case R.id.btn_send:
@@ -189,7 +291,7 @@ public class DeviceControlActivity extends BaseActivity {
      * @return void
      * @date 2019-02-13
      */
-    private void showCommandDialog() {
+    private void showCommandDialog(String command) {
         String writeCharacter = selectWriteView.getContentString();
         String notifyCharacter = selectNotifyView.getContentString();
         //用户未选择对应的特征
@@ -200,7 +302,7 @@ public class DeviceControlActivity extends BaseActivity {
             ToastUtil.show(activity, R.string.no_select_character);
             return;
         }
-        new SelectCommandDialog(activity) {
+        new SelectCommandDialog(activity, command) {
             @Override
             public void sendCommand(int commandFlag, String command) {
                 tvCommand.setText(command);
@@ -269,6 +371,9 @@ public class DeviceControlActivity extends BaseActivity {
                     //ToastUtil.show(context,"通知已选择");
                     return;
                 }
+                notifyServiceUuid = serviceUuid;
+                notifyCharacterUuid = characterUuid;
+
                 selectNotifyView.setTvContent(String.valueOf(characterUuid));
                 //打开通知
                 BluetoothManage.getInstance().openNotify(mac, serviceUuid, characterUuid, response);
@@ -284,9 +389,17 @@ public class DeviceControlActivity extends BaseActivity {
         @Override
         public void onNotify(UUID service, UUID character, byte[] value) {
             String hexString = ByteAndStringUtil.bytesToHexString(value);
-            adapter.notifyData(new OutputData(hexString));
-            tvTotal.setText("" + adapter.getDatasSize());
-            rvOutput.smoothScrollToPosition(adapter.getDatasSize() - 1);
+            String txtString = ByteAndStringUtil.hexStringToString(hexString);
+            if (typeOfOutput == TYPE_OF_HEX) {
+                adapter.notifyData(new OutputData(hexString));
+                tvTotal.setText("" + adapter.getDatasSize());
+                rvOutput.smoothScrollToPosition(adapter.getDatasSize() - 1);
+            } else {
+                adapter.notifyData(new OutputData(txtString));
+                tvTotal.setText("" + adapter.getDatasSize());
+                rvOutput.smoothScrollToPosition(adapter.getDatasSize() - 1);
+            }
+
         }
 
         @Override
@@ -339,11 +452,20 @@ public class DeviceControlActivity extends BaseActivity {
                 hideProgressDialog();
                 tvStatues.setText(getString(R.string.connection));
                 tvStatues.setTextColor(Color.GREEN);
+                isConnection = true;
+                topView.setRightText(getResources().getString(R.string.disconnect));
+                //连接后，看用户有没有选中对应的服务和特征字段
+                if (!getResources().getString(R.string.select_write_character).equals(selectWriteView.getContentString())
+                        && !getResources().getString(R.string.select_notify_character).equals(selectNotifyView.getContentString())) {
+                    //打开通知
+                    BluetoothManage.getInstance().openNotify(mac, notifyServiceUuid, notifyCharacterUuid, response);
+                }
 
             } else if (status == STATUS_DISCONNECTED) {
                 tvStatues.setText(getString(R.string.disconnection));
                 tvStatues.setTextColor(Color.RED);
-
+                isConnection = false;
+                topView.setRightText(getResources().getString(R.string.connect));
             }
         }
     };
@@ -365,6 +487,7 @@ public class DeviceControlActivity extends BaseActivity {
                     switch (position) {
                         //清空数据
                         case 0:
+                            tvTotal.setText("0");
                             adapter.clear();
                             break;
                         //导出文本操作
@@ -397,7 +520,7 @@ public class DeviceControlActivity extends BaseActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String outputStr = null;
+                        String outputStr = "";
                         List<OutputData> datas = adapter.getDatas();
                         for (OutputData data : datas) {
                             outputStr = outputStr + data.getOutputString();

@@ -17,15 +17,18 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/darcy_20_dp" />
+            android:layout_height="@dimen/darcy_15_dp" />
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:entries="@array/spinner"
-            android:gravity="center" />
+        <Button
+            android:id="@+id/btn_convert"
+            android:layout_width="@dimen/darcy_30_dp"
+            android:layout_height="@dimen/darcy_30_dp"
+            android:layout_gravity="center|end"
+            android:layout_marginBottom="@dimen/darcy_6_dp"
+            android:background="@drawable/button_circle_selector"
+            android:text="转换"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -36,11 +39,13 @@
             <EditText
                 android:id="@+id/et_input_command"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/darcy_40_dp"
-                android:background="@null"
+                android:layout_height="@dimen/darcy_50_dp"
+                android:background="@drawable/rectangle_command"
                 android:gravity="center|left"
-                android:hint="请输入命令"
+                android:hint="@string/input_command"
+                android:maxLines="2"
                 android:paddingStart="@dimen/darcy_20_dp"
+                android:paddingEnd="@dimen/darcy_30_dp"
                 android:textSize="14sp" />
 
             <ImageView
@@ -49,7 +54,7 @@
                 android:layout_height="@dimen/darcy_20_dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
-                android:layout_marginEnd="@dimen/darcy_15_dp"
+                android:layout_marginEnd="@dimen/darcy_10_dp"
                 android:src="@drawable/delete_selector"
                 android:visibility="gone" />
 
@@ -60,7 +65,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/darcy_1_dp"
-            android:background="@color/blue" />
+            android:background="@color/blue"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,10 +100,11 @@
                 android:textColor="@drawable/text_color_selector" />
 
         </LinearLayout>
+
         <View
-            android:layout_marginTop="@dimen/darcy_6_dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/darcy_1_dp"
+            android:layout_marginTop="@dimen/darcy_6_dp"
             android:background="@color/blue" />
 
         <ListView

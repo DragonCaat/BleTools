@@ -9,8 +9,10 @@
     <string name="search_bluetooth">Search for Bluetooth</string>
     <string name="bluetooth_number">Ble Device Number:</string>
     <string name="statues">Statues: </string>
-    <string name="disconnection">Disconnect</string>
+    <string name="disconnection">Disconnected</string>
+    <string name="disconnect">Disconnect</string>
     <string name="connection">Connected</string>
+    <string name="connect">connect</string>
     <string name="connecting">connect...</string>
     <string name="select_write_character">Select Write Characteristic</string>
     <string name="select_notify_character">Select Notify Characteristic</string>
@@ -36,4 +38,7 @@
     <string name="no_output_data">no output data</string>
     <string name="permission_denied">permission denied</string>
     <string name="output_success">output success</string>
+    <string name="search">search</string>
+    <string name="not_translate">cannot convert</string>
+    <string name="analysis_data">analysis data</string>
 </resources>
