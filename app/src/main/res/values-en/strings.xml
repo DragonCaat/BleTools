@@ -41,4 +41,7 @@
     <string name="search">search</string>
     <string name="not_translate">cannot convert</string>
     <string name="analysis_data">analysis data</string>
+
+    <string name="callback_connect_open">callback opened</string>
+    <string name="callback_connect_close">callback closed</string>
 </resources>

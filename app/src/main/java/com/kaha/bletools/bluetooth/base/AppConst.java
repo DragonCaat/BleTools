@@ -18,4 +18,7 @@ public class AppConst {
     public static final String KEY_6 = "key6";
 
     public static final String TYPE_OF_OUTPUT = "type_of_output";
+
+    //回连
+    public static final String CALL_BACK_STATUES = "call_back_statues";
 }

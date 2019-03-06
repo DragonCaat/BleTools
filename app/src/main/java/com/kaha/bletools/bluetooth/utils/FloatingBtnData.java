@@ -1,8 +1,10 @@
 package com.kaha.bletools.bluetooth.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.kaha.bletools.R;
+import com.kaha.bletools.bluetooth.base.AppConst;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.labellist.RFACLabelItem;
 
 import java.util.ArrayList;

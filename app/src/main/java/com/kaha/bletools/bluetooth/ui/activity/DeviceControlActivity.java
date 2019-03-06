@@ -156,9 +156,7 @@ public class DeviceControlActivity extends BaseActivity {
         rvOutput.setAdapter(adapter);
         // rvOutput.setNestedScrollingEnabled(false);
 
-        if (items != null) {
-            items.clear();
-        }
+        items = null;
         //浮动按钮的初始化
         items = FloatingBtnData.getFloatingData(context);
         RapidFloatingActionContentLabelList rfaContent = new RapidFloatingActionContentLabelList(context);
@@ -455,8 +453,7 @@ public class DeviceControlActivity extends BaseActivity {
                 isConnection = true;
                 topView.setRightText(getResources().getString(R.string.disconnect));
                 //连接后，看用户有没有选中对应的服务和特征字段
-                if (!getResources().getString(R.string.select_write_character).equals(selectWriteView.getContentString())
-                        && !getResources().getString(R.string.select_notify_character).equals(selectNotifyView.getContentString())) {
+                if (!getResources().getString(R.string.select_notify_character).equals(selectNotifyView.getContentString())) {
                     //打开通知
                     BluetoothManage.getInstance().openNotify(mac, notifyServiceUuid, notifyCharacterUuid, response);
                 }
@@ -499,6 +496,16 @@ public class DeviceControlActivity extends BaseActivity {
                 }
             };
 
+    //检查是否回连
+    private void checkCallback() {
+        boolean aBoolean = SPUtil.getInstance().getBoolean(AppConst.CALL_BACK_STATUES, false);
+        if (aBoolean) {
+            SPUtil.getInstance().putBoolean(AppConst.CALL_BACK_STATUES, false);
+        } else {
+            SPUtil.getInstance().putBoolean(AppConst.CALL_BACK_STATUES, true);
+        }
+    }
+
     /**
      * 导出文本
      *
@@ -522,8 +529,8 @@ public class DeviceControlActivity extends BaseActivity {
                     public void run() {
                         String outputStr = "";
                         List<OutputData> datas = adapter.getDatas();
-                        for (OutputData data : datas) {
-                            outputStr = outputStr + data.getOutputString();
+                        for (int i = 0;i<datas.size();i++) {
+                            outputStr = outputStr + datas.get(i).getOutputString();
                         }
                         FileUtil.writeTextToFile(outputStr);
                         runOnUiThread(new Runnable() {
@@ -540,7 +547,7 @@ public class DeviceControlActivity extends BaseActivity {
             public void onPermissionDenied(String... permission) {
                 ToastUtil.show(context, R.string.permission_denied);
             }
-        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
     @Override

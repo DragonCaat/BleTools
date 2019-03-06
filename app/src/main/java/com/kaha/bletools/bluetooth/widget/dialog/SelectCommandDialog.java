@@ -1,5 +1,6 @@
 package com.kaha.bletools.bluetooth.widget.dialog;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -27,13 +29,16 @@ import com.kaha.bletools.bluetooth.ui.adapter.GattServiceAdapter;
 import com.kaha.bletools.bluetooth.ui.adapter.ShowCommandAdapter;
 import com.kaha.bletools.bluetooth.utils.ByteAndStringUtil;
 import com.kaha.bletools.bluetooth.utils.CommandFileUtil;
+import com.kaha.bletools.bluetooth.utils.FileUtil;
 import com.kaha.bletools.bluetooth.utils.SPUtil;
+import com.kaha.bletools.framework.utils.PermissionHelper;
 import com.kaha.bletools.framework.utils.ToastUtil;
 import com.kaha.bletools.litepal.Command;
 import com.kaha.bletools.litepal.LitePalManage;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,6 +77,8 @@ public abstract class SelectCommandDialog extends Dialog {
 
     private String command;//已经输入的命令
 
+    private PermissionHelper permissionHelper;
+
     public SelectCommandDialog(Activity activity, String command) {
         super(activity, R.style.defaultDialog);
         this.activity = activity;
@@ -86,11 +93,17 @@ public abstract class SelectCommandDialog extends Dialog {
         ButterKnife.bind(this);
         setDialogData();
         initView();
+        permissionHelper = new PermissionHelper(activity);
     }
 
     //初始化View
     private void initView() {
         list = LitePalManage.getInstance().getCommandList();
+        if (list == null || list.size() == 0) {
+            //list = CommandFileUtil.getCommandList("bleCommand");
+        }
+
+
         //初始化命令的listView
         adapter = new ShowCommandAdapter(activity, list);
         lvShowSaveCommand.setAdapter(adapter);
@@ -201,12 +214,36 @@ public abstract class SelectCommandDialog extends Dialog {
         } else {
             ToastUtil.show(activity, R.string.save_fail);
         }
-
-        List<Command> commandData = adapter.getCommandData();
-        if (commandData.size() > 0) {
-            CommandFileUtil.saveCommand2SDCard(commandData,"bleCommand");
-        }
+        requestPermission();
     }
+
+    //请求写入文件的权限
+    private void requestPermission() {
+        permissionHelper.requestPermission(new PermissionHelper.PermissionCallBack() {
+            @Override
+            public void onPermissionGrant(String... permission) {
+                final List<Command> commandData = adapter.getCommandData();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (commandData.size() > 0) {
+                            for (int i = 0; i < commandData.size(); i++) {
+                                String command = "";
+                                command = command + commandData.get(i).getCommand()+"\n";
+                                FileUtil.writeCommandToFile(command);
+                            }
+                        }
+                    }
+                }).start();
+            }
+
+            @Override
+            public void onPermissionDenied(String... permission) {
+
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+    }
+
 
     /**
      * 发送命令

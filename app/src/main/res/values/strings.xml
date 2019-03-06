@@ -40,4 +40,6 @@
     <string name="search">搜索</string>
     <string name="not_translate">乱码不可转换</string>
     <string name="analysis_data">分析数据</string>
+    <string name="callback_connect_open">回连打开</string>
+    <string name="callback_connect_close">回连关闭</string>
 </resources>

@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/darcy_40_dp"
         android:layout_centerInParent="true"
-        android:gravity="center"
+        android:gravity="center|left"
+        android:paddingStart="@dimen/darcy_4_dp"
         android:text="ATBATT"
         android:textColor="@color/gray_888888"
         android:textSize="16sp" />

@@ -62,7 +62,7 @@ public class CommandFileUtil {
      * @return ArrayList
      * @date 2019-02-21
      */
-    public ArrayList<Command> getCommandList(String fileName) {
+    public static ArrayList<Command> getCommandList(String fileName) {
         ObjectInputStream objectInputStream = null;
         FileInputStream fileInputStream = null;
         ArrayList<Command> savedArrayList = new ArrayList<>();

@@ -2,11 +2,14 @@ package com.kaha.bletools.bluetooth.utils;
 
 import android.annotation.SuppressLint;
 
+import com.kaha.bletools.litepal.Command;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Darcy
@@ -110,6 +113,36 @@ public class FileUtil {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 将文本写入到文件
+     *
+     * @param command 要写入的内容
+     * @return void
+     * @date 2019-02-15
+     */
+    public static void writeCommandToFile(String command) {
+        getFile(commandPath, "bleCommand");
+        //文本的名称
+        String strFilePath = commandPath + "bleCommand";
+        File file = new File(strFilePath);
+        try {
+            if (!file.exists()) {
+                //文件不存在
+                file.getParentFile().mkdir();
+                file.createNewFile();
+            }
+            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
+            randomAccessFile.seek(file.length());
+            randomAccessFile.write(command.getBytes());
+//            randomAccessFile.write("\r");
+//            randomAccessFile.write("\n");
+            randomAccessFile.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * 生成对应的file.txt 文件
