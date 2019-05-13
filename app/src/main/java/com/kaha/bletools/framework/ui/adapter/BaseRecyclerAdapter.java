@@ -44,6 +44,8 @@ public abstract class BaseRecyclerAdapter<T, V extends RecyclerView.ViewHolder> 
 
     public void notifyData(T value) {
         datas.add(value);
+
+        //notifyItemInserted(datas.size()-1 );
         notifyDataSetChanged();
     }
 

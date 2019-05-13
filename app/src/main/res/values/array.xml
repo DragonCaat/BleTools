@@ -7,4 +7,34 @@
         <item>文本</item>
     </string-array>
 
+
+    <string-array name="command_common">
+        <item>ATBATT</item>
+        <item>ATGPEDO </item>
+        <item>ATMOVC=1 </item>
+        <item>ATMOVC=0 </item>
+        <item>ATMOVC0D=+180 </item>
+        <item>ATMOVC1D=+180 </item>
+        <item>ATMOVC2D=+180 </item>
+        <item>ATTEST4=104 </item>
+        <item>ATTEST4=105 </item>
+        <item>ATCALLH01=1 </item>
+        <item>ATCALLH02=1 </item>
+        <item>ATFTARGET </item>
+        <item>ATMSG=1 </item>
+        <item>ATVERSION=1 </item>
+        <item>ATVERSION=2 </item>
+        <item>ATDELET </item>
+        <item>ATRESET </item>
+        <item>ATCLNDR=1 </item>
+        <item>ATSTEP </item>
+        <item>ATSTM </item>
+        <item>ATHSLP00=0551211 </item>
+        <item>ATHST00=0550023 </item>
+        <item>ATBPSTART </item>
+        <item>ATBPSTOP </item>
+
+
+    </string-array>
+
 </resources>

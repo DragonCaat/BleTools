@@ -10,6 +10,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -18,11 +19,16 @@ android {
     }
     productFlavors {
     }
+
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    //noinspection GradleCompatible
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
     //noinspection GradleCompatible
@@ -31,20 +37,28 @@ dependencies {
     configurations.all {
         resolutionStrategy.force 'com.android.support:support-annotations:26.1.0'
     }
+    //implementation 'com.android.support:support-v4:28.0.0'
+    //implementation 'com.android.support:appcompat-v7:28.0.0'
     //View注入框架
+    //implementation 'com.jakewharton:butterknife:10.0.0'
+    //annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.inuker.bluetooth:library:1.4.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:multidex:1.0.3'
-    implementation project(':baselibrary')
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    //recycleView依赖
+    //implementation 'com.android.support:recyclerview-v7:28.0.0'
     //刷新加载的效果
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
-
     //数据库
     implementation 'org.litepal.android:core:2.0.0'
     //浮动按钮
     implementation 'com.github.wangjiegulu:rfab:2.0.0'
+    //选择按钮
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+
+    //自定义的tableLayout
+    implementation 'com.androidkun:XTabLayout:1.1.4'
 }

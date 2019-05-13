@@ -12,13 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.kaha.bletools.R;
-import com.kaha.bletools.framework.utils.PermissionHelper;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
  * 基类
+ *
  * @author : Darcy
  * @package com.kaha.bletools
  * @Date 2018-11-7 11:37
@@ -27,11 +27,12 @@ import butterknife.Unbinder;
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected Context context;
-    protected Activity activity;
+    protected AppCompatActivity activity;
 
     private Unbinder unbinder;
 
-    private Dialog progressDialog;
+    private static Dialog progressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         progressDialog.getWindow().setBackgroundDrawableResource(R.color.gray_f3f3f3);
         TextView msg = progressDialog.findViewById(R.id.id_tv_loadingmsg);
         msg.setText(s);
+
         progressDialog.show();
 
         //当dialog被dismiss的时候停止连接

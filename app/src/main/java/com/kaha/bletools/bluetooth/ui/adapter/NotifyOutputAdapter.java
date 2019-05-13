@@ -43,8 +43,10 @@ public class NotifyOutputAdapter extends BaseRecyclerAdapter<OutputData, NotifyO
         //最新的一条数据颜色为绿色
         if (position == datas.size() - 1) {
             holder.tvOutputItem.setTextColor(context.getResources().getColor(R.color.green_47ba5c));
+            holder.tvCount.setTextColor(context.getResources().getColor(R.color.green_47ba5c));
         } else {
             holder.tvOutputItem.setTextColor(context.getResources().getColor(R.color.gray_888888));
+            holder.tvCount.setTextColor(context.getResources().getColor(R.color.brown_ccb693));
         }
     }
 

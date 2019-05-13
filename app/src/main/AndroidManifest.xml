@@ -9,7 +9,13 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!--文件写入读取权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--语音所需要的权限-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -23,7 +29,8 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="p">
 
         <!-- 主界面 -->
         <activity android:name=".bluetooth.ui.activity.MainActivity">
@@ -38,7 +45,9 @@
         <service android:name="com.inuker.bluetooth.library.BluetoothService" />
         <!-- 搜索蓝牙界面 -->
         <activity android:name=".bluetooth.ui.activity.SearchActivity" />
-        <activity android:name=".bluetooth.ui.activity.DeviceControlActivity"></activity>
+        <!--蓝牙数据操作界面-->
+        <activity android:name=".bluetooth.ui.activity.DeviceControlActivity" />
+
     </application>
 
 </manifest>

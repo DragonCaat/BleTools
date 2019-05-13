@@ -16,10 +16,11 @@
     <string name="select_write_character">点击选择可写服务</string>
     <string name="select_notify_character">点击选择可通知服务</string>
     <string name="select_read_character">点击选择可读服务</string>
-    <string name ="unknown_service">UnKnown service</string>
+    <string name="unknown_service">UnKnown service</string>
     <string name="unknown_characteristic">UnKnown characteristic</string>
     <string name="ble_device_disconnect">当前蓝牙已经断开</string>
     <string name="send">发送</string>
+    <string name="send_loop">循环发送</string>
     <string name="input_command">点击输入命令</string>
     <string name="save_command">保存命令</string>
     <string name="no_command">当前没有命令</string>
@@ -27,8 +28,8 @@
     <string name="command_exist">命令已存在</string>
     <string name="no_select_character">请先选择对应特征</string>
     <string name="notify_opened">通知已打开</string>
-    <string name="write_success">写入成功</string>
-    <string name="write_fail">写入失败</string>
+    <string name="write_success">发送成功</string>
+    <string name="write_fail">发送失败</string>
     <string name="output_format">输出格式:</string>
     <string name="no_input_command">请先输入命令</string>
     <string name="total_count">输出条目总量:</string>
@@ -42,4 +43,12 @@
     <string name="analysis_data">分析数据</string>
     <string name="callback_connect_open">回连打开</string>
     <string name="callback_connect_close">回连关闭</string>
+    <string name="hint_circle_time">循环时间</string>
+    <string name="ms">ms</string>
+    <string name="input_circle_time">先输入循环间隔</string>
+    <string name="stop_circle_send_first">请先停止循环发送命令</string>
+    <string name="cancel_loop">取消循环</string>
+    <string name="connect_fail">连接失败</string>
+    <string name="convert">转换</string>
+    <string name="capital">大写</string>
 </resources>

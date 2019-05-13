@@ -18,6 +18,8 @@ import com.kaha.bletools.framework.base.BluetoothApplication;
 
 import java.util.UUID;
 
+import static com.inuker.bluetooth.library.Constants.REQUEST_SUCCESS;
+
 /**
  * @author : Darcy
  * @package com.kaha.bletools.bluetooth.utils.bluetooth
@@ -34,6 +36,56 @@ public class BluetoothManage {
     }
 
     private static BluetoothManage instance;
+
+
+    /**
+     * 升级的蓝牙服务
+     */
+    public static final String UPDATE_SERVICE = "0000fe59-0000-1000-8000-00805f9b34fb";
+
+    /**
+     * 升级的蓝牙字段
+     */
+    public static final String UPDATE_CHARACTER = "0000fe59-0000-1000-8000-00805f9b34fb";
+
+
+    /**
+     * 更新固件
+     *
+     * @param mac  蓝牙的Mac地址
+     * @param path 要更新包的真实路径
+     * @return void
+     * @date 2019-04-19
+     */
+    public void updateFireWare(String mac, String path, BleWriteResponse response) {
+        byte[] bytes = ByteAndStringUtil.getBytes(path);
+
+        updateFireWare(mac, bytes, response);
+    }
+
+
+    /**
+     * 更新固件
+     *
+     * @param mac   蓝牙的Mac地址
+     * @param bytes 更新包
+     * @return void
+     * @date 2019-04-19
+     */
+    private void updateFireWare(String mac, byte[] bytes, BleWriteResponse response) {
+        UUID serviceUUID = UUID.fromString(UPDATE_SERVICE);
+        UUID characterUUID = UUID.fromString(UPDATE_CHARACTER);
+        bluetoothClient.writeNoRsp(mac, serviceUUID, characterUUID, bytes, response);
+
+//        bluetoothClient.writeNoRsp(mac, serviceUUID, characterUUID, bytes, new BleWriteResponse() {
+//            @Override
+//            public void onResponse(int code) {
+//                if (code == REQUEST_SUCCESS) {
+//
+//                }
+//            }
+//        });
+    }
 
 
     /**

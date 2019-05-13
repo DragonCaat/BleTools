@@ -4,21 +4,17 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.inuker.bluetooth.library.beacon.Beacon;
 import com.inuker.bluetooth.library.search.SearchResult;
 import com.inuker.bluetooth.library.search.response.SearchResponse;
-import com.inuker.bluetooth.library.utils.BluetoothLog;
 import com.kaha.bletools.R;
 import com.kaha.bletools.bluetooth.ui.adapter.BluetoothAdapter;
 import com.kaha.bletools.bluetooth.utils.bluetooth.BluetoothManage;
 import com.kaha.bletools.bluetooth.utils.bluetooth.SortByRssi;
 import com.kaha.bletools.framework.ui.activity.BaseActivity;
-import com.kaha.bletools.framework.widget.CommonTopView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -133,17 +129,21 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void onSearchStopped() {
-                progressBar.setVisibility(View.GONE);
-                tvSearch.setVisibility(View.VISIBLE);
+                if (iaActivityAlive) {
+                    progressBar.setVisibility(View.GONE);
+                    tvSearch.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void onSearchCanceled() {
-                tvSearch.setVisibility(View.VISIBLE);
+                if (iaActivityAlive)
+                    tvSearch.setVisibility(View.VISIBLE);
             }
         });
     }
 
+    private boolean iaActivityAlive = true;
 
     @Override
     protected void onStart() {
@@ -153,6 +153,7 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        iaActivityAlive = false;
         //停止搜索
         BluetoothManage.getInstance().getBluetoothClient().stopSearch();
         progressBar.setVisibility(View.GONE);

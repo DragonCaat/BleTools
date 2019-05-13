@@ -50,4 +50,6 @@
     <dimen name="darcy_240_dp">240dp</dimen>
     <dimen name="darcy_250_dp">250dp</dimen>
     <dimen name="darcy_340_dp">340dp</dimen>
+    <dimen name="darcy_500_dp">500dp</dimen>
+    <dimen name="darcy_600_dp">600dp</dimen>
 </resources>

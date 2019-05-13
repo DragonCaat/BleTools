@@ -80,10 +80,10 @@ public class ConfirmPopWindow extends PopupWindow {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_current_version:
-                ToastUtil.show(context,"当前版本");
+                ToastUtil.show(context, "2019-04-09");
                 break;
             case R.id.ll_about_our:
-                ToastUtil.show(context,"关于我们");
+                ToastUtil.show(context, "关于我们");
                 break;
             default:
                 break;

@@ -21,6 +21,7 @@
     <string name="unknown_characteristic">UnKnown characteristic</string>
     <string name="ble_device_disconnect">Bluetooth Disconnected</string>
     <string name="send">Send</string>
+    <string name="send_loop">Circular send</string>
     <string name="input_command">Input Command</string>
     <string name="save_command">Save Command</string>
     <string name="no_command">No input command </string>
@@ -28,8 +29,8 @@
     <string name="command_exist">Command already exists</string>
     <string name="no_select_character">no selected character</string>
     <string name="notify_opened">notify open</string>
-    <string name="write_success">write success</string>
-    <string name="write_fail">write fail</string>
+    <string name="write_success">send success</string>
+    <string name="write_fail">send fail</string>
     <string name="output_format">output format:</string>
     <string name="no_input_command">no command input</string>
     <string name="total_count">total entries:</string>
@@ -44,4 +45,14 @@
 
     <string name="callback_connect_open">callback opened</string>
     <string name="callback_connect_close">callback closed</string>
+    <string name="hint_circle_time">time interval</string>
+
+    <string name="ms">ms</string>
+    <string name="input_circle_time">input time interval</string>
+    <string name="cancel_loop">cancel loop</string>
+    <string name="stop_circle_send_first">Stop looping to send commands first</string>
+
+    <string name="connect_fail">connect fail</string>
+    <string name="convert">CNV*</string>
+    <string name="capital">CPLZ</string>
 </resources>

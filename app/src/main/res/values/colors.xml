@@ -14,6 +14,7 @@
 
     <color name="main_color_dark">#80F63BB2</color>
     <color name="black">#333333</color>
+    <color name="black_000000">#000000</color>
     <color name="black_80333333">#80333333</color>
     <color name="gray_888888">#888888</color>
     <color name="gray_cccccc">#cccccc</color>
@@ -22,6 +23,7 @@
     <color name="gray_d3d3d3">#d3d3d3</color>
 
     <color name="blue">#19acfd</color>
+    <color name="blue_8019acfd">#8019acfd</color>
     <color name="hint_cfcfcf">#cfcfcf</color>
 
     <color name="red_ff4c4c">#ff4c4c</color>

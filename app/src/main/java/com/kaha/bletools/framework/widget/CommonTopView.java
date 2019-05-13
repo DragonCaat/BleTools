@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,6 +38,10 @@ public class CommonTopView extends RelativeLayout {
     @BindView(R.id.tv_right_text)
     TextView tvRightText;
 
+    //statueBar占位
+    @BindView(R.id.view)
+    View view;
+
     public CommonTopView(Context context) {
         super(context);
     }
@@ -46,6 +51,7 @@ public class CommonTopView extends RelativeLayout {
         View view = LayoutInflater.from(context).inflate(R.layout
                 .layout_head, this);
         ButterKnife.bind(this, view);
+
     }
 
     public CommonTopView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -53,7 +59,7 @@ public class CommonTopView extends RelativeLayout {
     }
 
 
-    @OnClick({R.id.rl_back,R.id.tv_right_text})
+    @OnClick({R.id.rl_back, R.id.tv_right_text})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_back:

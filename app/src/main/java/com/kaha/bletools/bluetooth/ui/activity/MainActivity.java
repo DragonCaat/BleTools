@@ -59,12 +59,20 @@ public class MainActivity extends BaseActivity {
         topView.setRightImageVis();
         topView.setRightImage(R.mipmap.right_menu);
 
+        topView.setTitle("卡哈科技");
+
         checkSupport();
         checkBluetoothOpened();
 
         permissionHelper = new PermissionHelper(this);
 
-        permissionHelper.requestPermission(permissionCallBack, Manifest.permission.ACCESS_FINE_LOCATION);
+        permissionHelper.requestPermission(permissionCallBack,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     @OnClick({R.id.rl_right_image, R.id.fb_search})
@@ -103,7 +111,7 @@ public class MainActivity extends BaseActivity {
 
                 skipPage(SearchActivity.class);
             } else {
-                isOpenBluetooth= false;
+                isOpenBluetooth = false;
                 ToastUtil.show(context, "蓝牙未打开");
             }
         }
@@ -122,6 +130,7 @@ public class MainActivity extends BaseActivity {
             tvSupportStatues.setText("unSupport");
         }
     }
+
     //检查蓝牙是否打开
     @SuppressLint("SetTextI18n")
     private void checkBluetoothOpened() {
@@ -140,6 +149,7 @@ public class MainActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         permissionHelper.handleRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
     //请求权限回调
     PermissionHelper.PermissionCallBack permissionCallBack = new PermissionHelper.PermissionCallBack() {
         @Override

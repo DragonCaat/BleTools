@@ -5,24 +5,22 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.ExpandableListView;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.inuker.bluetooth.library.Constants;
 import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
 import com.inuker.bluetooth.library.connect.response.BleConnectResponse;
 import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
 import com.inuker.bluetooth.library.connect.response.BleReadResponse;
 import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.inuker.bluetooth.library.model.BleGattProfile;
-import com.inuker.bluetooth.library.search.SearchResult;
 import com.kaha.bletools.R;
 import com.kaha.bletools.bluetooth.base.AppConst;
 import com.kaha.bletools.bluetooth.entity.OutputData;
@@ -40,14 +38,20 @@ import com.kaha.bletools.framework.ui.activity.BaseActivity;
 import com.kaha.bletools.framework.utils.PermissionHelper;
 import com.kaha.bletools.framework.utils.ToastUtil;
 import com.kaha.bletools.framework.widget.CommonTopView;
+import com.suke.widget.SwitchButton;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionHelper;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.labellist.RFACLabelItem;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.labellist.RapidFloatingActionContentLabelList;
 
-import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import butterknife.BindView;
@@ -92,6 +96,12 @@ public class DeviceControlActivity extends BaseActivity {
     @BindView(R.id.tv_type_txt)
     TextView tvTypeTxt;
 
+    @BindView(R.id.switch_button)
+    SwitchButton switchButton;
+    //取消循环
+    @BindView(R.id.btn_send_circle)
+    Button btnCancelLoop;
+
     @BindView(R.id.activity_main_rfal)
     RapidFloatingActionLayout rfaLayout;
     @BindView(R.id.activity_main_rfab)
@@ -116,6 +126,10 @@ public class DeviceControlActivity extends BaseActivity {
     private int typeOfOutput = 0;//0:十六进制  1:文本
     //设备是否已经连接
     private boolean isConnection = false;
+    //当前是否在循环发送命令
+    private boolean isCircleSend = false;
+    //当前是否重连，默认补充连
+    private boolean isReconnect = false;
 
     @Override
     protected int setLayoutId() {
@@ -186,6 +200,17 @@ public class DeviceControlActivity extends BaseActivity {
             tvTypeHex.setBackground(getDrawable(R.drawable.circle_gray));
             tvTypeTxt.setBackground(getDrawable(R.drawable.circle_green));
         }
+
+        isReconnect = SPUtil.getInstance().getBoolean(AppConst.CALL_BACK_STATUES, false);
+        switchButton.setChecked(isReconnect);
+        switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                isReconnect = isChecked;
+                SPUtil.getInstance().putBoolean(AppConst.CALL_BACK_STATUES, isReconnect);
+            }
+        });
+
     }
 
     //选择文本模式的点击事件
@@ -250,7 +275,7 @@ public class DeviceControlActivity extends BaseActivity {
      * 点击事件处理
      */
     @OnClick({R.id.select_write_character, R.id.select_notify_character,
-            R.id.tv_command, R.id.btn_send, R.id.select_read_character})
+            R.id.tv_command, R.id.btn_send, R.id.select_read_character, R.id.btn_send_circle})
     public void onClick(View view) {
         switch (view.getId()) {
             //选择可写属性
@@ -267,6 +292,10 @@ public class DeviceControlActivity extends BaseActivity {
                 break;
             //点击输入命令
             case R.id.tv_command:
+                if (isCircleSend) {
+                    ToastUtil.show(context, R.string.stop_circle_send_first);
+                    return;
+                }
                 String command = tvCommand.getText().toString();
                 showCommandDialog(command);
                 break;
@@ -278,6 +307,14 @@ public class DeviceControlActivity extends BaseActivity {
                     return;
                 }
                 writeCommand(s);
+                break;
+
+            //取消循环
+            case R.id.btn_send_circle:
+                isCircleSend = false;
+                btnCancelLoop.setVisibility(View.GONE);
+                timer.cancel();
+                timer = null;
                 break;
         }
     }
@@ -306,8 +343,45 @@ public class DeviceControlActivity extends BaseActivity {
                 tvCommand.setText(command);
                 writeCommand(command);
             }
+
+            /**循环发送
+             * */
+            @Override
+            public void CircleSendCommand(String command, int circleTime) {
+                tvCommand.setText(command);
+                circleCommand = command;
+                task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        Message message = new Message();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    }
+                };
+                btnCancelLoop.setVisibility(View.VISIBLE);
+
+                timer = new Timer();
+                //启动定时器
+                timer.schedule(task, circleTime, circleTime);
+                isCircleSend = true;
+            }
         }.show();
     }
+
+    private String circleCommand;
+    private Timer timer = new Timer();
+    private TimerTask task;
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            // 要做的事情
+            writeCommand(circleCommand);
+            super.handleMessage(msg);
+        }
+    };
 
     //发送命令
     private void writeCommand(String command) {
@@ -315,24 +389,31 @@ public class DeviceControlActivity extends BaseActivity {
                 command, new BleWriteResponse() {
                     @Override
                     public void onResponse(int code) {
-                        if (code == REQUEST_SUCCESS) {
-                            ToastUtil.show(context, R.string.write_success);
-                        } else {
-                            ToastUtil.show(context, R.string.write_fail);
+                        if (!isCircleSend) {
+                            if (code == REQUEST_SUCCESS) {
+                                ToastUtil.show(context, R.string.write_success);
+                            } else {
+                                ToastUtil.show(context, R.string.write_fail);
+                            }
                         }
+
                     }
                 });
     }
 
 
     /**
-     * 展示选择字段的弹框
+     * 展示选择蓝牙写入或者通知字段的弹框
      *
      * @param
      * @return void
      * @date 2019-02-13
      */
     private void showDialog() {
+        if (isCircleSend) {
+            ToastUtil.show(context, R.string.stop_circle_send_first);
+            return;
+        }
         Boolean connect = BluetoothManage.getInstance().isConnect(mac);
         if (!connect) {
             ToastUtil.show(context, R.string.ble_device_disconnect);
@@ -353,8 +434,6 @@ public class DeviceControlActivity extends BaseActivity {
                             @SuppressLint("SetTextI18n")
                             @Override
                             public void onResponse(int code, byte[] data) {
-//                                String hexString = ByteAndStringUtil.bytesToHexString(data);
-//                                String result = ByteAndStringUtil.hexStringToString(hexString);
                                 adapter.notifyData(new OutputData(new String(data)));
                                 tvTotal.setText("" + adapter.getDatasSize());
                             }
@@ -397,6 +476,7 @@ public class DeviceControlActivity extends BaseActivity {
                 tvTotal.setText("" + adapter.getDatasSize());
                 rvOutput.smoothScrollToPosition(adapter.getDatasSize() - 1);
             }
+            Log.i("hello", "onNotify: " + hexString + "----" + hexString.length());
 
         }
 
@@ -434,8 +514,8 @@ public class DeviceControlActivity extends BaseActivity {
         BluetoothManage.getInstance().connectionRequest(mac, new BleConnectResponse() {
             @Override
             public void onResponse(int code, BleGattProfile data) {
-                if (code == STATUS_CONNECTED) {
-                }
+                hideProgressDialog();
+                //ToastUtil.show(context, R.string.connect_fail);p
                 //连接成功
                 bleGattProfiledata = data;
             }
@@ -463,6 +543,11 @@ public class DeviceControlActivity extends BaseActivity {
                 tvStatues.setTextColor(Color.RED);
                 isConnection = false;
                 topView.setRightText(getResources().getString(R.string.connect));
+                //如果会连是打开的，此处应该再去连接
+                if (isReconnect) {
+                    connection();
+                }
+
             }
         }
     };
@@ -496,16 +581,6 @@ public class DeviceControlActivity extends BaseActivity {
                 }
             };
 
-    //检查是否回连
-    private void checkCallback() {
-        boolean aBoolean = SPUtil.getInstance().getBoolean(AppConst.CALL_BACK_STATUES, false);
-        if (aBoolean) {
-            SPUtil.getInstance().putBoolean(AppConst.CALL_BACK_STATUES, false);
-        } else {
-            SPUtil.getInstance().putBoolean(AppConst.CALL_BACK_STATUES, true);
-        }
-    }
-
     /**
      * 导出文本
      *
@@ -529,10 +604,20 @@ public class DeviceControlActivity extends BaseActivity {
                     public void run() {
                         String outputStr = "";
                         List<OutputData> datas = adapter.getDatas();
-                        for (int i = 0;i<datas.size();i++) {
-                            outputStr = outputStr + datas.get(i).getOutputString();
+
+                        File file = FileUtil.getFile(FileUtil.filePath, FileUtil.getFileName());
+
+                        BufferedWriter bufferedWriter = null;
+                        try {
+                            bufferedWriter = new BufferedWriter(new FileWriter(file));
+                            for (int i = 0; i < datas.size(); i++) {
+                                bufferedWriter.write(datas.get(i).getOutputString());
+                            }
+                            bufferedWriter.flush();
+                            bufferedWriter.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                        FileUtil.writeTextToFile(outputStr);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -547,7 +632,7 @@ public class DeviceControlActivity extends BaseActivity {
             public void onPermissionDenied(String... permission) {
                 ToastUtil.show(context, R.string.permission_denied);
             }
-        }, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE);
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
     @Override

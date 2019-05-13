@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
@@ -19,16 +21,34 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/darcy_15_dp" />
 
-        <Button
-            android:id="@+id/btn_convert"
-            android:layout_width="@dimen/darcy_30_dp"
-            android:layout_height="@dimen/darcy_30_dp"
-            android:layout_gravity="center|end"
-            android:layout_marginBottom="@dimen/darcy_6_dp"
-            android:background="@drawable/button_circle_selector"
-            android:text="转换"
-            android:textColor="@color/white"
-            android:textSize="10sp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/darcy_6_dp">
+
+            <Button
+                android:id="@+id/btn_capitalized"
+                android:layout_width="@dimen/darcy_30_dp"
+                android:layout_height="@dimen/darcy_30_dp"
+                android:layout_marginEnd="@dimen/darcy_10_dp"
+                android:layout_toStartOf="@+id/btn_convert"
+                android:background="@drawable/button_capital_selector"
+                android:text="@string/capital"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/btn_convert"
+                android:layout_width="@dimen/darcy_30_dp"
+                android:layout_height="@dimen/darcy_30_dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/button_circle_selector"
+                android:text="@string/convert"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -98,6 +118,55 @@
                 android:text="@string/save_command"
                 android:textAllCaps="false"
                 android:textColor="@drawable/text_color_selector" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/darcy_45_dp"
+            android:layout_marginTop="@dimen/darcy_4_dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_sen_circle"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/darcy_40_dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:text="@string/send_loop"
+                android:textAllCaps="false"
+                android:textColor="@drawable/text_color_selector" />
+
+            <View
+                android:layout_width="@dimen/darcy_40_dp"
+                android:layout_height="match_parent" />
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/darcy_40_dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/et_send_circle_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rectangle_command"
+                    android:hint="@string/hint_circle_time"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/darcy_5_dp"
+                    android:textSize="12sp"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:paddingEnd="@dimen/darcy_5_dp"
+                    android:text="@string/ms" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -106,6 +175,28 @@
             android:layout_height="@dimen/darcy_1_dp"
             android:layout_marginTop="@dimen/darcy_6_dp"
             android:background="@color/blue" />
+
+        <com.androidkun.xtablayout.XTabLayout
+            android:id="@+id/xTablayout"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:xTabDisplayNum="5"
+            app:xTabIndicatorColor="@color/green_53ce78"
+            app:xTabIndicatorHeight="4dp"
+            app:xTabIndicatorWidth="15dp"
+            app:xTabMode="scrollable"
+            app:xTabSelectedTextColor="@color/black_000000"
+            app:xTabSelectedTextSize="18sp"
+            app:xTabTextColor="@color/gray_888888"
+            app:xTabTextSelectedBold="true"
+            app:xTabTextSize="14sp" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <ListView
             android:id="@+id/lv_show_save_command"
