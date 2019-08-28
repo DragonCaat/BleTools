@@ -28,6 +28,7 @@ import com.kaha.bletools.bluetooth.ui.fragment.ComCommandFragment;
 import com.kaha.bletools.bluetooth.utils.ByteAndStringUtil;
 import com.kaha.bletools.bluetooth.utils.FileUtil;
 import com.kaha.bletools.bluetooth.utils.InputCapLowerToUpper;
+import com.kaha.bletools.bluetooth.utils.TimeUtil;
 import com.kaha.bletools.framework.utils.PermissionHelper;
 import com.kaha.bletools.framework.utils.ToastUtil;
 import com.kaha.bletools.litepal.Command;
@@ -130,7 +131,7 @@ public abstract class SelectCommandDialog extends Dialog {
             int height = activity.getResources().getDimensionPixelSize(R.dimen.darcy_500_dp);
             window.setGravity(Gravity.CENTER);
             WindowManager.LayoutParams lp = window.getAttributes();
-           // lp.width = width; //设置宽度
+            // lp.width = width; //设置宽度
             lp.height = height;
             window.setAttributes(lp);
         }
@@ -209,7 +210,8 @@ public abstract class SelectCommandDialog extends Dialog {
 
     @OnClick({R.id.btn_send, R.id.btn_save_command,
             R.id.iv_delete, R.id.btn_convert,
-            R.id.btn_sen_circle, R.id.btn_capitalized})
+            R.id.btn_sen_circle, R.id.btn_capitalized,
+            R.id.btn_time})
     public void onClick(View view) {
         switch (view.getId()) {
             //发送命令
@@ -257,6 +259,16 @@ public abstract class SelectCommandDialog extends Dialog {
                 String commandUpper = command.toUpperCase();
                 etInputCommand.setText(commandUpper);
                 etInputCommand.setSelection(commandUpper.length());
+                break;
+
+            //时间
+            case R.id.btn_time:
+                String hexTime = TimeUtil.getHexTime();
+                String hexTimeZone = TimeUtil.getHexTimeZone();
+                String commandTime = "415453544D3D" + hexTime + hexTimeZone+"00000000";
+                //"415453544D3D141106070A34152B051E";
+                etInputCommand.setText(commandTime);
+                etInputCommand.setSelection(commandTime.length());
                 break;
 
         }
@@ -397,7 +409,7 @@ public abstract class SelectCommandDialog extends Dialog {
     public abstract void sendCommand(int commandFlag, String command);
 
     /**
-     * 发送命令
+     * 循环发送命令
      *
      * @param command    要循环发送的命令
      * @param circleTime 循环间隔

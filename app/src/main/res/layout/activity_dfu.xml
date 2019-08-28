@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.kaha.bletools.framework.widget.CommonTopView
+        android:id="@+id/topView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_40_dp"
+        android:gravity="center|start"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/darcy_10_dp"
+            android:layout_weight="1"
+            android:gravity="center|start"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/device_name"
+                android:textColor="@color/gray_888888"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_device_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/darcy_10_dp"
+                android:textColor="@color/black_000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|start">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/device_address"
+                android:textColor="@color/gray_888888"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_device_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/darcy_10_dp"
+                android:textColor="@color/black_000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_1_dp"
+        android:layout_marginStart="@dimen/darcy_20_dp"
+        android:layout_marginEnd="@dimen/darcy_20_dp"
+        android:background="@color/gray_f3f3f3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_40_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="@dimen/darcy_10_dp"
+            android:text="@string/connection_status"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_connect_statues"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/darcy_10_dp"
+            android:text="@string/disconnection"
+            android:textColor="@color/gray_888888" />
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_select_file"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_40_dp"
+        android:layout_marginStart="@dimen/darcy_80_dp"
+        android:layout_marginTop="@dimen/darcy_20_dp"
+        android:layout_marginEnd="@dimen/darcy_80_dp"
+        android:background="@drawable/selector_button"
+        android:gravity="center"
+        android:text="@string/select_dfu_file"
+        android:textColor="@color/white" />
+
+
+    <TextView
+        android:id="@+id/tv_update"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_50_dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:gravity="center|start" />
+
+    <ProgressBar
+        android:id="@+id/pb"
+        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:max="100"
+        android:visibility="invisible" />
+
+</LinearLayout>

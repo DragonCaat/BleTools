@@ -34,6 +34,34 @@
         <item>ATBPSTART </item>
         <item>ATBPSTOP </item>
 
+        <item>ATMOVC=</item>
+        <item>ATMOVCxD=</item>
+        <item>ATFTARGET=</item>
+        <item>ATGPEDO</item>
+        <item>ATTZONE=OFFSET</item>
+        <item>ATALRT=</item>
+        <item>ATALRM</item>
+        <item>ATCNFG=</item>
+        <item>ATHSTnn=</item>
+        <item>ATHSLPnn=</item>
+        <item>ATCHARGER</item>
+
+        <item>ATUNPAIR</item>
+        <item>ATPOWEROFF</item>
+        <item>ATDELET</item>
+        <item>ATRESET</item>
+        <item>ATDISx=</item>
+        <item>ATDISOK</item>
+        <item>ATDEVICE=</item>
+        <item>ATANCS=</item>
+
+        <item>ATNOTIFYx=</item>
+        <item>ATWLWA=</item>
+        <item>ATMSG</item>
+        <item>ATHRD=</item>
+        <item>ATSTBY=</item>
+        <item>ATBODY</item>
+        <item>ATDST=</item>
 
     </string-array>
 

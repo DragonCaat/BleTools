@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_30_dp"
+        android:gravity="center"
+        android:text="来自文件中的命令"
+        android:textColor="@color/black_000000"
+        android:textSize="18sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="@dimen/darcy_10_dp"
+        android:id="@+id/rv_file_command"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_10_dp"/>
+
+</LinearLayout>

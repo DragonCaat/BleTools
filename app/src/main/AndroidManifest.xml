@@ -17,6 +17,12 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 
+    <!--
+
+   android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+        android:appComponentFactory="bleTools"
+    -->
+
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
@@ -29,8 +35,13 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
-        tools:targetApi="p">
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <activity android:name=".test.TestActivity">
+
+
+        </activity>
+
 
         <!-- 主界面 -->
         <activity android:name=".bluetooth.ui.activity.MainActivity">
@@ -44,9 +55,22 @@
         <!-- 蓝牙服务 -->
         <service android:name="com.inuker.bluetooth.library.BluetoothService" />
         <!-- 搜索蓝牙界面 -->
-        <activity android:name=".bluetooth.ui.activity.SearchActivity" />
+        <activity
+            android:name=".bluetooth.ui.activity.SearchActivity"
+            android:launchMode="singleTop" />
         <!--蓝牙数据操作界面-->
         <activity android:name=".bluetooth.ui.activity.DeviceControlActivity" />
+        <!--分析数据的界面-->
+        <activity android:name=".bluetooth.ui.activity.AnalysisActivity">
+
+        </activity>
+        <!--空中升级-->
+        <activity android:name=".bluetooth.ui.activity.DfuActivity" />
+        <!--升级服务-->
+        <service android:name=".bluetooth.ui.service.DfuService" />
+
+        <!--信号值实时监测-->
+        <activity android:name=".bluetooth.ui.activity.RssiTestActivity" />
 
     </application>
 

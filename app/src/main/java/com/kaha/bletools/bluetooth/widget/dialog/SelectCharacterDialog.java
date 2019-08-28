@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -39,6 +40,7 @@ public abstract class SelectCharacterDialog extends Dialog {
         super(activity, R.style.defaultDialog);
         this.activity = activity;
         this.data = data;
+
     }
 
     @Override

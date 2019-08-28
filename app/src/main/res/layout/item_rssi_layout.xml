@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/darcy_30_dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/darcy_10_dp"
+        android:text="2019-08-27 14:13:15"
+        android:textColor="@color/gray_888888"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_rssi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/darcy_10_dp"
+        android:text="-50db"
+        android:textColor="@color/black"
+        android:textSize="13sp" />
+
+</LinearLayout>

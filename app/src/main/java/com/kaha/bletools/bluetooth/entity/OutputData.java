@@ -1,5 +1,9 @@
 package com.kaha.bletools.bluetooth.entity;
 
+import org.litepal.crud.DataSupport;
+
+import java.io.Serializable;
+
 /**
  * 输出数据
  *
@@ -8,7 +12,7 @@ package com.kaha.bletools.bluetooth.entity;
  * @package com.kaha.bletools.bluetooth.entity
  * @Desciption
  */
-public class OutputData {
+public class OutputData extends DataSupport implements Serializable {
 
     private String outputString;
 

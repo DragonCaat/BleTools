@@ -6,16 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".bluetooth.ui.activity.MainActivity">
 
+    <ImageView
+        android:id="@+id/tv_kaha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/kaha1" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#f0ffffff"
         android:orientation="vertical">
 
         <com.kaha.bletools.framework.widget.CommonTopView
             android:id="@+id/toView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,8 +82,99 @@
                 android:layout_marginTop="@dimen/darcy_10_dp"
                 android:background="@color/colorPrimary" />
         </LinearLayout>
-    </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/darcy_20_dp"
+            android:layout_marginTop="@dimen/darcy_10_dp"
+            android:layout_marginEnd="@dimen/darcy_20_dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_file_command"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/darcy_100_dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/selector_file_command"
+                android:text="@string/select_command_form_file"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="@dimen/darcy_20_dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btn_use_mode"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/darcy_100_dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/selector_file_command"
+                android:text="@string/private_string"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/darcy_20_dp"
+            android:layout_marginTop="@dimen/darcy_10_dp"
+            android:layout_marginEnd="@dimen/darcy_20_dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_rssi_mode"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/darcy_100_dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/selector_file_command"
+                android:text="@string/normal_model"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="@dimen/darcy_20_dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="@dimen/darcy_100_dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/selector_file_command"
+                android:text="@string/private_string"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/darcy_20_dp"
+            android:layout_marginTop="@dimen/darcy_40_dp"
+            android:layout_marginEnd="@dimen/darcy_20_dp"
+            android:background="@color/gray_f3f3f3"
+            android:lineSpacingExtra="2dp"
+            android:padding="@dimen/darcy_5_dp"
+            android:text="@string/explain_string"
+            android:textColor="@color/black_000000"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fb_search"

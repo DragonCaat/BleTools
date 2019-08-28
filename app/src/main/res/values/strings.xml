@@ -41,6 +41,7 @@
     <string name="search">搜索</string>
     <string name="not_translate">乱码不可转换</string>
     <string name="analysis_data">分析数据</string>
+    <string name="database">数据库</string>
     <string name="callback_connect_open">回连打开</string>
     <string name="callback_connect_close">回连关闭</string>
     <string name="hint_circle_time">循环时间</string>
@@ -51,4 +52,27 @@
     <string name="connect_fail">连接失败</string>
     <string name="convert">转换</string>
     <string name="capital">大写</string>
+    <string name="time_change">时间</string>
+    <string name="select_command_form_file">从文件中读取命令</string>
+    <string name="private_string">私有</string>
+    <string name="public_string">公有</string>
+
+    <string name="rssi_model">信号值测试模式</string>
+    <string name="normal_model">常用测试模式</string>
+
+
+    <string name="explain_string">
+        1.点击后从文件夹中选择命令导入数据库中\n2.私有不显示选择读写字段,公有显示读写字段
+        \n3.常用模式下是正常测试，信号值模式下为信号值实时监听
+    </string>
+    <string name="dfu_update">OTA DFU 升级</string>
+    <string name="device_name">设备名称:</string>
+    <string name="device_address">设备地址:</string>
+    <string name="select_dfu_file">选择升级文件</string>
+    <string name="file_path_invalid">文件路径不存在</string>
+    <string name="update_fail">升级失败</string>
+    <string name="connection_status">连接状态:</string>
+    <string name="rssi_test">蓝牙信号值监测</string>
+    <string name="begin">开始</string>
+    <string name="stop">停止</string>
 </resources>

@@ -1,10 +1,15 @@
 <?xml    version="1.0"    encoding="utf-8"?>
 <litepal>
     <dbname value="KaHa" />
-    <version value="1" />
+    <version value="2" />
     <list>
 
         <mapping class="com.kaha.bletools.litepal.Command" />
 
+    </list>
+
+    <!--文件命令-->
+    <list>
+        <mapping class="com.kaha.bletools.litepal.FileCommand" />
     </list>
 </litepal>

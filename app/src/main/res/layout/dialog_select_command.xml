@@ -27,6 +27,18 @@
             android:layout_marginBottom="@dimen/darcy_6_dp">
 
             <Button
+                android:id="@+id/btn_time"
+                android:layout_width="@dimen/darcy_30_dp"
+                android:layout_height="@dimen/darcy_30_dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="@dimen/darcy_10_dp"
+                android:background="@drawable/button_circle_selector"
+                android:text="@string/time_change"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <Button
                 android:id="@+id/btn_capitalized"
                 android:layout_width="@dimen/darcy_30_dp"
                 android:layout_height="@dimen/darcy_30_dp"
@@ -178,9 +190,9 @@
 
         <com.androidkun.xtablayout.XTabLayout
             android:id="@+id/xTablayout"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:visibility="gone"
             app:xTabDisplayNum="5"
             app:xTabIndicatorColor="@color/green_53ce78"
             app:xTabIndicatorHeight="4dp"
@@ -194,9 +206,9 @@
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
         <ListView
             android:id="@+id/lv_show_save_command"

@@ -21,4 +21,10 @@ public class AppConst {
 
     //回连
     public static final String CALL_BACK_STATUES = "call_back_statues";
+
+    //工作模式
+    public static final String USE_MODE = "use_mode";
+
+    //信号值测试模式
+    public static final String RSSI_MODEL = "rssi_model";
 }

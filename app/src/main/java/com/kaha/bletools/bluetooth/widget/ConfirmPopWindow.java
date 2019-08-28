@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import com.kaha.bletools.R;
+import com.kaha.bletools.bluetooth.utils.PackageUtil;
 import com.kaha.bletools.framework.utils.ToastUtil;
 
 import butterknife.ButterKnife;
@@ -80,7 +81,7 @@ public class ConfirmPopWindow extends PopupWindow {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_current_version:
-                ToastUtil.show(context, "2019-04-09");
+                ToastUtil.show(context, PackageUtil.getVersionName(context));
                 break;
             case R.id.ll_about_our:
                 ToastUtil.show(context, "关于我们");

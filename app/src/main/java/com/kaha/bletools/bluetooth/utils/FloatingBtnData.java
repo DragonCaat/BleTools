@@ -22,7 +22,7 @@ public class FloatingBtnData {
     private static List<RFACLabelItem> items;
 
     public static List<RFACLabelItem> getFloatingData(Context context) {
-        items = new ArrayList<>(3);
+        items = new ArrayList<>(5);
         items.add(new RFACLabelItem<Integer>()
                 .setLabel(context.getString(R.string.wipe_data))
                 .setResId(R.mipmap.clean_white)
@@ -50,6 +50,24 @@ public class FloatingBtnData {
                 .setLabelColor(0xff056f00)
                 .setLabelBackgroundDrawable(context.getDrawable(R.drawable.rectangle_transparent))
                 .setWrapper(2)
+        );
+        items.add(new RFACLabelItem<Integer>()
+                .setLabel(context.getString(R.string.database))
+                .setResId(R.mipmap.database)
+                .setIconNormalColor(0xffd84315)
+                .setIconPressedColor(0xffccb693)
+                .setLabelColor(0xffccb693)
+                .setLabelBackgroundDrawable(context.getDrawable(R.drawable.rectangle_transparent))
+                .setWrapper(3)
+        );
+        items.add(new RFACLabelItem<Integer>()
+                .setLabel(context.getString(R.string.dfu_update))
+                .setResId(R.mipmap.update)
+                .setIconNormalColor(0xffccb793)
+                .setIconPressedColor(0xffccb693)
+                .setLabelColor(0xffccb693)
+                .setLabelBackgroundDrawable(context.getDrawable(R.drawable.rectangle_transparent))
+                .setWrapper(3)
         );
 
         return items;

@@ -2,10 +2,13 @@ package com.kaha.bletools.bluetooth.ui.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
@@ -32,12 +36,15 @@ import com.kaha.bletools.bluetooth.utils.SPUtil;
 import com.kaha.bletools.bluetooth.utils.bluetooth.BleBluetoothHelper;
 import com.kaha.bletools.bluetooth.utils.bluetooth.BluetoothManage;
 import com.kaha.bletools.bluetooth.widget.BleSelectView;
+import com.kaha.bletools.bluetooth.widget.dialog.FileCommandDialog;
 import com.kaha.bletools.bluetooth.widget.dialog.SelectCharacterDialog;
 import com.kaha.bletools.bluetooth.widget.dialog.SelectCommandDialog;
 import com.kaha.bletools.framework.ui.activity.BaseActivity;
 import com.kaha.bletools.framework.utils.PermissionHelper;
 import com.kaha.bletools.framework.utils.ToastUtil;
 import com.kaha.bletools.framework.widget.CommonTopView;
+import com.kaha.bletools.litepal.FileCommand;
+import com.kaha.bletools.litepal.LitePalManage;
 import com.suke.widget.SwitchButton;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionHelper;
@@ -49,6 +56,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -106,6 +114,13 @@ public class DeviceControlActivity extends BaseActivity {
     RapidFloatingActionLayout rfaLayout;
     @BindView(R.id.activity_main_rfab)
     RapidFloatingActionButton rfaBtn;
+    //可读可写的布局
+    @BindView(R.id.ll_read_notify)
+    LinearLayout llReadNotify;
+
+    @BindView(R.id.tv_save_type)
+    TextView tvSaveType;
+
     private RapidFloatingActionHelper rfabHelper;
     private List<RFACLabelItem> items;//浮动button的数据源
     //rvOutput的适配器
@@ -114,6 +129,7 @@ public class DeviceControlActivity extends BaseActivity {
     private BleGattProfile bleGattProfiledata;
     private String mac;
     private String name;
+    //写入
     private UUID writeServiceUuid;
     private UUID writeCharacterUuid;
     //通知
@@ -121,7 +137,6 @@ public class DeviceControlActivity extends BaseActivity {
     private UUID notifyCharacterUuid;
     //权限帮助类
     private PermissionHelper permissionHelper;
-
     //用户选择的输出文本的格式
     private int typeOfOutput = 0;//0:十六进制  1:文本
     //设备是否已经连接
@@ -130,6 +145,8 @@ public class DeviceControlActivity extends BaseActivity {
     private boolean isCircleSend = false;
     //当前是否重连，默认补充连
     private boolean isReconnect = false;
+
+    private int user_mode = 0;//用户开启的使用模式0:私有，1;公有
 
     @Override
     protected int setLayoutId() {
@@ -144,7 +161,6 @@ public class DeviceControlActivity extends BaseActivity {
         setUserData();
         connection();
         initView();
-
         topView.setRightTextVis(true);
         topView.setRightText(getResources().getString(R.string.disconnection));
         topView.setOnRightClickListener(new CommonTopView.OnRightClickListener() {
@@ -159,7 +175,16 @@ public class DeviceControlActivity extends BaseActivity {
                 }
             }
         });
-
+        user_mode = SPUtil.getInstance().getInt(AppConst.USE_MODE, 0);
+        if (user_mode == 0) {
+            writeServiceUuid = BluetoothManage.SERVICE_UUID;
+            writeCharacterUuid = BluetoothManage.WRITE_UUID;
+            notifyServiceUuid = BluetoothManage.SERVICE_UUID;
+            notifyCharacterUuid = BluetoothManage.NOTIFY_UUID;
+            llReadNotify.setVisibility(View.GONE);
+        } else {
+            llReadNotify.setVisibility(View.VISIBLE);
+        }
     }
 
     //初始化View
@@ -179,8 +204,8 @@ public class DeviceControlActivity extends BaseActivity {
                 .setItems(items)
                 .setIconShadowRadius(dip2px(5))
                 .setIconShadowColor(0xff888888)
-                .setIconShadowDy(dip2px(5))
-        ;
+                .setIconShadowDy(dip2px(5));
+
         rfabHelper = new RapidFloatingActionHelper(
                 context,
                 rfaLayout,
@@ -275,7 +300,8 @@ public class DeviceControlActivity extends BaseActivity {
      * 点击事件处理
      */
     @OnClick({R.id.select_write_character, R.id.select_notify_character,
-            R.id.tv_command, R.id.btn_send, R.id.select_read_character, R.id.btn_send_circle})
+            R.id.tv_command, R.id.btn_send, R.id.select_read_character,
+            R.id.btn_send_circle, R.id.tv_file_command, R.id.tv_save_type})
     public void onClick(View view) {
         switch (view.getId()) {
             //选择可写属性
@@ -286,6 +312,7 @@ public class DeviceControlActivity extends BaseActivity {
             case R.id.select_notify_character:
                 showDialog();
                 break;
+
             //选择可读属性
             case R.id.select_read_character:
                 showDialog();
@@ -316,8 +343,36 @@ public class DeviceControlActivity extends BaseActivity {
                 timer.cancel();
                 timer = null;
                 break;
+
+            //从文件中选取命令
+            case R.id.tv_file_command:
+                if (isConnection)
+                    new FileCommandDialog(activity) {
+                        @Override
+                        public void ClickFileCommand(String command) {
+                            writeCommand(command);
+                        }
+                    }.show();
+                else
+                    ToastUtil.show(context, R.string.ble_device_disconnect);
+                break;
+
+            //设置保存的模式
+            case R.id.tv_save_type:
+                if (saveType) {
+                    saveType = false;
+                    tvSaveType.setText("off");
+                    tvSaveType.setBackgroundResource(R.drawable.rectangle_gray);
+                } else {
+                    saveType = true;
+                    tvSaveType.setText("on");
+                    tvSaveType.setBackgroundResource(R.drawable.rectangle_green);
+                }
+                break;
         }
     }
+
+    private boolean saveType = false;
 
     /**
      * 展示命令的输入框
@@ -327,14 +382,23 @@ public class DeviceControlActivity extends BaseActivity {
      * @date 2019-02-13
      */
     private void showCommandDialog(String command) {
-        String writeCharacter = selectWriteView.getContentString();
-        String notifyCharacter = selectNotifyView.getContentString();
-        //用户未选择对应的特征
-        if (writeCharacter.equals(activity.getResources().getString(R.string.select_write_character))) {
-            ToastUtil.show(activity, R.string.no_select_character);
-            return;
-        } else if (notifyCharacter.equals(activity.getResources().getString(R.string.select_notify_character))) {
-            ToastUtil.show(activity, R.string.no_select_character);
+        if (user_mode == 0) {
+
+        } else {
+            String writeCharacter = selectWriteView.getContentString();
+            String notifyCharacter = selectNotifyView.getContentString();
+            //用户未选择对应的特征
+            if (writeCharacter.equals(activity.getResources().getString(R.string.select_write_character))) {
+                ToastUtil.show(activity, R.string.no_select_character);
+                return;
+            } else if (notifyCharacter.equals(activity.getResources().getString(R.string.select_notify_character))) {
+                ToastUtil.show(activity, R.string.no_select_character);
+                return;
+            }
+        }
+
+        if (!isConnection) {
+            ToastUtil.show(context, R.string.ble_device_disconnect);
             return;
         }
         new SelectCommandDialog(activity, command) {
@@ -376,7 +440,6 @@ public class DeviceControlActivity extends BaseActivity {
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
             // 要做的事情
             writeCommand(circleCommand);
             super.handleMessage(msg);
@@ -476,8 +539,6 @@ public class DeviceControlActivity extends BaseActivity {
                 tvTotal.setText("" + adapter.getDatasSize());
                 rvOutput.smoothScrollToPosition(adapter.getDatasSize() - 1);
             }
-            Log.i("hello", "onNotify: " + hexString + "----" + hexString.length());
-
         }
 
         @Override
@@ -515,7 +576,6 @@ public class DeviceControlActivity extends BaseActivity {
             @Override
             public void onResponse(int code, BleGattProfile data) {
                 hideProgressDialog();
-                //ToastUtil.show(context, R.string.connect_fail);p
                 //连接成功
                 bleGattProfiledata = data;
             }
@@ -537,8 +597,15 @@ public class DeviceControlActivity extends BaseActivity {
                     //打开通知
                     BluetoothManage.getInstance().openNotify(mac, notifyServiceUuid, notifyCharacterUuid, response);
                 }
+                //是私有模式
+                if (user_mode == 0) {
+                    //打开通知
+                    BluetoothManage.getInstance().openNotify(mac, notifyServiceUuid, notifyCharacterUuid, response);
+                }
+
 
             } else if (status == STATUS_DISCONNECTED) {
+                hideProgressDialog();
                 tvStatues.setText(getString(R.string.disconnection));
                 tvStatues.setTextColor(Color.RED);
                 isConnection = false;
@@ -576,6 +643,29 @@ public class DeviceControlActivity extends BaseActivity {
                         case 1:
                             saveToFile();
                             break;
+
+                        //分析数据
+                        case 2:
+                            ArrayList<OutputData> datas = (ArrayList<OutputData>) adapter.getDatas();
+                            if (datas.size() == 0) {
+                                ToastUtil.show(context, "当前没有待分析的数据");
+                                return;
+                            }
+                            Intent intent = new Intent(context, AnalysisActivity.class);
+                            intent.putExtra(AppConst.KEY_5, datas);
+                            startActivity(intent);
+                            break;
+                        //显示数据库的数据
+                        case 3:
+
+                            break;
+                        //dfu升级
+                        case 4:
+                            Intent intent1 = new Intent(context, DfuActivity.class);
+                            intent1.putExtra(AppConst.KEY_1, name);
+                            intent1.putExtra(AppConst.KEY_2, mac);
+                            startActivity(intent1);
+                            break;
                     }
                     rfabHelper.toggleContent();
                 }
@@ -602,7 +692,7 @@ public class DeviceControlActivity extends BaseActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String outputStr = "";
+                        //String outputStr = "";
                         List<OutputData> datas = adapter.getDatas();
 
                         File file = FileUtil.getFile(FileUtil.filePath, FileUtil.getFileName());
@@ -650,5 +740,12 @@ public class DeviceControlActivity extends BaseActivity {
                 .unRegistConnection(mac, mBleConnectStatusListener);
         //取消通知
         BluetoothManage.getInstance().closeNotify(mac, notifyServiceUuid, notifyCharacterUuid);
+
+        if (isCircleSend) {//如果在循环发送，移除回调
+            isCircleSend = false;
+            btnCancelLoop.setVisibility(View.GONE);
+            timer.cancel();
+            timer = null;
+        }
     }
 }

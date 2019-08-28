@@ -111,13 +111,23 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleView"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="@dimen/darcy_10_dp"
-            android:paddingEnd="@dimen/darcy_10_dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="match_parent">
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/darcy_10_dp"
+                android:paddingEnd="@dimen/darcy_10_dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
     </android.support.design.widget.CoordinatorLayout>
 

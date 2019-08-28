@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_10_dp"/>
+    <TextView
+        android:gravity="center"
+        android:textSize="12sp"
+        android:layout_marginEnd="@dimen/darcy_10_dp"
+        android:layout_marginStart="@dimen/darcy_10_dp"
+        android:id="@+id/btn_file_command_item"
+        android:textColor="@color/white"
+        android:background="@drawable/selector_file_command"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/darcy_40_dp" />
+
+</LinearLayout>

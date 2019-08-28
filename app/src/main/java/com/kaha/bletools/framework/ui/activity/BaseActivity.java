@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.kaha.bletools.R;
+import com.kaha.bletools.framework.utils.statusbar.StatusBarUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -36,7 +37,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        //设置状态栏透明,字体变黑
+        StatusBarUtil.setImmersiveStatusBar(this, false);
         context = this;
         activity = this;
         setContentView(setLayoutId());

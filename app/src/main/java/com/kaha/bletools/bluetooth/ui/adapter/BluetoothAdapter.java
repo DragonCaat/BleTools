@@ -3,7 +3,9 @@ package com.kaha.bletools.bluetooth.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -14,7 +16,9 @@ import com.kaha.bletools.R;
 import com.kaha.bletools.bluetooth.base.AppConst;
 import com.kaha.bletools.bluetooth.entity.BluetoothEntity;
 import com.kaha.bletools.bluetooth.ui.activity.DeviceControlActivity;
+import com.kaha.bletools.bluetooth.ui.activity.RssiTestActivity;
 import com.kaha.bletools.bluetooth.utils.ByteAndStringUtil;
+import com.kaha.bletools.bluetooth.utils.SPUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,12 +60,22 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
         bluetoothHolder.llBluetooth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DeviceControlActivity.class);
+                Intent intent;
+                int anInt = SPUtil.getInstance().getInt(AppConst.RSSI_MODEL, 0);
+                if (anInt == 0) {
+                    intent = new Intent(context, DeviceControlActivity.class);
+                } else {
+                    intent = new Intent(context, RssiTestActivity.class);
+                }
                 intent.putExtra(AppConst.KEY_1, entity.getName());
                 intent.putExtra(AppConst.KEY_2, entity.getAddress());
                 context.startActivity(intent);
             }
         });
+
+        final int rssiPercent = (int) (100.0f * (127.0f + entity.rssi) / (127.0f + 20.0f));
+
+        // Log.i("hello", "onBindViewHolder: "+rssiPercent);
 
     }
 

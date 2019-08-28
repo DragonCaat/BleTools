@@ -55,4 +55,32 @@
     <string name="connect_fail">connect fail</string>
     <string name="convert">CNV*</string>
     <string name="capital">CPLZ</string>
+
+    <string name="time_change">Time</string>
+    <string name="select_command_form_file">Cmd form file</string>
+    <string name="private_string">private</string>
+    <string name="public_string">public</string>
+
+    <string name="database">database</string>
+
+    <string name="rssi_model">Rssi Test Model</string>
+    <string name="normal_model">Normal Test Model</string>
+
+    <string name="explain_string">
+        1.Select commands from folders to import into database after clicking\n
+        2.Privately selected read-write segments with no display and publicly displayed read-write segments
+        \n3.Normal test in common mode and real-time monitoring in signal value mode
+    </string>
+
+    <string name="dfu_update">OTA DFU UPGRADE</string>
+
+    <string name="device_name">device name:</string>
+    <string name="device_address">device address:</string>
+    <string name="select_dfu_file">Select Upgrade File</string>
+    <string name="file_path_invalid">File path invalid</string>
+    <string name="update_fail">Upgrade fail</string>
+    <string name="connection_status">connection status:</string>
+
+    <string name="rssi_test">RSSI TEST</string>
+
 </resources>

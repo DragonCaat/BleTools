@@ -1,7 +1,5 @@
 package com.kaha.bletools.bluetooth.utils.bluetooth;
 
-import android.util.Log;
-
 import com.inuker.bluetooth.library.BluetoothClient;
 import com.inuker.bluetooth.library.Constants;
 import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
@@ -9,6 +7,7 @@ import com.inuker.bluetooth.library.connect.options.BleConnectOptions;
 import com.inuker.bluetooth.library.connect.response.BleConnectResponse;
 import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
 import com.inuker.bluetooth.library.connect.response.BleReadResponse;
+import com.inuker.bluetooth.library.connect.response.BleReadRssiResponse;
 import com.inuker.bluetooth.library.connect.response.BleUnnotifyResponse;
 import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.inuker.bluetooth.library.search.SearchRequest;
@@ -18,8 +17,6 @@ import com.kaha.bletools.framework.base.BluetoothApplication;
 
 import java.util.UUID;
 
-import static com.inuker.bluetooth.library.Constants.REQUEST_SUCCESS;
-
 /**
  * @author : Darcy
  * @package com.kaha.bletools.bluetooth.utils.bluetooth
@@ -27,6 +24,17 @@ import static com.inuker.bluetooth.library.Constants.REQUEST_SUCCESS;
  * @Description 蓝牙管理类
  */
 public class BluetoothManage {
+
+
+    public static final UUID SERVICE_UUID = UUID.fromString("6e400001-b5a3-f393-e0a9-e50e24dcca9e");
+    /**
+     * 通用可写字段
+     */
+    public static final UUID WRITE_UUID = UUID.fromString("6e400002-b5a3-f393-e0a9-e50e24dcca9e");
+    /**
+     * 通用通知字段
+     */
+    public static final UUID NOTIFY_UUID = UUID.fromString("6e400003-b5a3-f393-e0a9-e50e24dcca9e");
 
     //作为一个全局单例，管理所有BLE设备的连接。
     private BluetoothClient bluetoothClient;
@@ -295,6 +303,18 @@ public class BluetoothManage {
                 //.searchBluetoothLeDevice(2000)      // 再扫BLE设备2s
                 .build();
         bluetoothClient.search(request, response);
+    }
+
+    /**
+     * 读取信号值
+     *
+     * @param mac              蓝牙的Mac地址
+     * @param readRssiResponse 回调
+     * @return void
+     * @date 2019-08-27
+     */
+    public void readRssi(String mac, BleReadRssiResponse readRssiResponse) {
+        bluetoothClient.readRssi(mac, readRssiResponse);
     }
 
 
